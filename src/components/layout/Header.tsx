@@ -37,7 +37,7 @@ export function Header() {
             {link.label}
             <span
               aria-hidden="true"
-              className="absolute left-0 bottom-0 w-0 h-px bg-gold transition-all duration-300
+              className="absolute left-0 bottom-0 w-0 h-px bg-gold transition-all duration-base
                 group-hover:w-full"
             />
           </Link>
