@@ -1,0 +1,1825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Animation Portfolio — Full System Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0D0D0F;
+  --surface:#141416;
+  --surface2:#1C1C20;
+  --border:#2A2A30;
+  --gold:#C5A56B;
+  --gold-dim:#8A6E3E;
+  --green:#4ADE80;
+  --blue:#60A5FA;
+  --purple:#A78BFA;
+  --red:#F87171;
+  --orange:#FB923C;
+  --text:#E8E6E1;
+  --text-dim:#7A7870;
+  --text-mid:#B0ADA6;
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Syne',sans-serif;
+  --body:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:14px;line-height:1.7;overflow-x:hidden}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* ── SIDEBAR NAV ── */
+.sidebar{
+  position:fixed;top:0;left:0;bottom:0;width:240px;
+  background:var(--surface);border-right:1px solid var(--border);
+  overflow-y:auto;padding:28px 0;z-index:100;
+}
+.sidebar-logo{
+  padding:0 24px 28px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:16px;
+}
+.sidebar-logo .title{font-family:var(--sans);font-size:15px;font-weight:700;color:var(--text);letter-spacing:.04em}
+.sidebar-logo .sub{font-size:11px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+
+.nav-section{margin-bottom:8px}
+.nav-section-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--text-dim);padding:12px 24px 6px;
+}
+.nav-link{
+  display:block;padding:7px 24px;font-size:13px;color:var(--text-mid);
+  text-decoration:none;transition:all .2s;border-left:2px solid transparent;
+}
+.nav-link:hover{color:var(--text);background:rgba(197,165,107,.05);border-left-color:var(--gold)}
+.nav-link.active{color:var(--gold);background:rgba(197,165,107,.08);border-left-color:var(--gold)}
+.nav-link .badge{
+  display:inline-block;margin-left:8px;padding:1px 7px;
+  border-radius:20px;font-size:10px;font-family:var(--mono);
+  background:rgba(197,165,107,.15);color:var(--gold);
+}
+
+/* ── MAIN CONTENT ── */
+.main{margin-left:240px;min-height:100vh;padding:0 0 80px}
+
+/* ── HERO BANNER ── */
+.hero-banner{
+  background:linear-gradient(135deg,#141416 0%,#1a1710 50%,#141416 100%);
+  border-bottom:1px solid var(--border);
+  padding:60px 64px 56px;
+  position:relative;overflow:hidden;
+}
+.hero-banner::before{
+  content:'';position:absolute;top:-100px;right:-100px;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(197,165,107,.06) 0%,transparent 70%);
+}
+.hero-banner::after{
+  content:'';position:absolute;bottom:-80px;left:200px;
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(96,165,250,.04) 0%,transparent 70%);
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:20px;
+}
+.hero-tag::before{content:'';width:20px;height:1px;background:var(--gold)}
+.hero-title{
+  font-family:var(--sans);font-size:42px;font-weight:700;
+  line-height:1.1;color:var(--text);margin-bottom:16px;
+}
+.hero-title span{color:var(--gold)}
+.hero-desc{font-size:15px;color:var(--text-mid);max-width:640px;line-height:1.8;margin-bottom:36px}
+.hero-meta{
+  display:flex;gap:40px;flex-wrap:wrap;
+}
+.meta-item .label{font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+.meta-item .value{font-size:14px;font-weight:500;color:var(--text)}
+.tag-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 12px;border-radius:20px;font-size:11px;font-family:var(--mono);
+  border:1px solid;margin-right:6px;margin-bottom:6px;
+}
+.tag-green{border-color:rgba(74,222,128,.3);color:var(--green);background:rgba(74,222,128,.06)}
+.tag-blue{border-color:rgba(96,165,250,.3);color:var(--blue);background:rgba(96,165,250,.06)}
+.tag-purple{border-color:rgba(167,139,250,.3);color:var(--purple);background:rgba(167,139,250,.06)}
+.tag-gold{border-color:rgba(197,165,107,.3);color:var(--gold);background:rgba(197,165,107,.06)}
+.tag-orange{border-color:rgba(251,146,60,.3);color:var(--orange);background:rgba(251,146,60,.06)}
+
+/* ── SECTION BLOCKS ── */
+.section{padding:56px 64px;border-bottom:1px solid var(--border)}
+.section-header{margin-bottom:40px}
+.section-num{
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--gold);
+  text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:10px;
+}
+.section-num::after{content:'';flex:1;height:1px;background:var(--border)}
+.section-title{font-family:var(--sans);font-size:26px;font-weight:700;color:var(--text);margin-bottom:8px}
+.section-desc{font-size:14px;color:var(--text-mid);max-width:680px;line-height:1.8}
+
+/* ── CARDS ── */
+.card{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;padding:24px;margin-bottom:16px;
+  transition:border-color .2s;
+}
+.card:hover{border-color:var(--gold-dim)}
+.card-title{
+  font-family:var(--sans);font-size:16px;font-weight:600;
+  color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:10px;
+}
+.card-body{font-size:13px;color:var(--text-mid);line-height:1.8}
+
+/* ── GRID LAYOUTS ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
+@media(max-width:900px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+
+/* ── CODE BLOCKS ── */
+.code-block{
+  background:#0A0A0C;border:1px solid var(--border);
+  border-radius:6px;overflow:hidden;margin:16px 0;
+}
+.code-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;background:#111113;border-bottom:1px solid var(--border);
+}
+.code-lang{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--text-dim);text-transform:uppercase}
+.code-dots{display:flex;gap:6px}
+.code-dot{width:10px;height:10px;border-radius:50%}
+.code-body{padding:20px;overflow-x:auto}
+pre{font-family:var(--mono);font-size:12px;line-height:1.8;color:#B0ADA6;white-space:pre}
+.c-gold{color:var(--gold)}
+.c-green{color:var(--green)}
+.c-blue{color:var(--blue)}
+.c-purple{color:var(--purple)}
+.c-red{color:var(--red)}
+.c-dim{color:#555}
+.c-orange{color:var(--orange)}
+
+/* ── FILE TREE ── */
+.filetree{
+  font-family:var(--mono);font-size:12px;line-height:1.9;
+  padding:20px 24px;background:#0A0A0C;border:1px solid var(--border);
+  border-radius:8px;overflow-x:auto;
+}
+.ft-dir{color:var(--blue)}
+.ft-file{color:var(--text-mid)}
+.ft-comment{color:var(--text-dim)}
+.ft-important{color:var(--gold)}
+.ft-test{color:var(--purple)}
+
+/* ── TABLES ── */
+.data-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0}
+.data-table th{
+  text-align:left;padding:10px 16px;background:#111113;
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text-dim);border-bottom:1px solid var(--border);
+}
+.data-table td{
+  padding:10px 16px;border-bottom:1px solid rgba(42,42,48,.6);
+  color:var(--text-mid);vertical-align:top;
+}
+.data-table tr:hover td{background:rgba(197,165,107,.03)}
+.data-table td:first-child{color:var(--text);font-family:var(--mono);font-size:12px}
+
+/* ── PHASE ROADMAP ── */
+.phase{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;margin-bottom:24px;overflow:hidden;
+}
+.phase-header{
+  padding:20px 28px;background:#111113;
+  display:flex;align-items:center;gap:16px;
+  border-bottom:1px solid var(--border);
+}
+.phase-num{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:13px;font-weight:500;flex-shrink:0;
+}
+.phase-0 .phase-num{background:rgba(167,139,250,.15);color:var(--purple);border:1px solid rgba(167,139,250,.3)}
+.phase-1 .phase-num{background:rgba(96,165,250,.15);color:var(--blue);border:1px solid rgba(96,165,250,.3)}
+.phase-2 .phase-num{background:rgba(197,165,107,.15);color:var(--gold);border:1px solid rgba(197,165,107,.3)}
+.phase-3 .phase-num{background:rgba(74,222,128,.15);color:var(--green);border:1px solid rgba(74,222,128,.3)}
+.phase-4 .phase-num{background:rgba(251,146,60,.15);color:var(--orange);border:1px solid rgba(251,146,60,.3)}
+
+.phase-info .name{font-family:var(--sans);font-size:17px;font-weight:600;color:var(--text)}
+.phase-info .timeline{font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-top:3px}
+.phase-status{
+  margin-left:auto;padding:4px 14px;border-radius:20px;
+  font-size:11px;font-family:var(--mono);
+}
+.status-todo{background:rgba(122,120,112,.15);color:var(--text-dim);border:1px solid rgba(122,120,112,.2)}
+.status-active{background:rgba(96,165,250,.12);color:var(--blue);border:1px solid rgba(96,165,250,.25)}
+.status-done{background:rgba(74,222,128,.12);color:var(--green);border:1px solid rgba(74,222,128,.25)}
+
+.phase-body{padding:24px 28px}
+.task-list{list-style:none}
+.task-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:9px 0;border-bottom:1px solid rgba(42,42,48,.5);font-size:13px;
+}
+.task-item:last-child{border-bottom:none}
+.task-check{
+  width:16px;height:16px;border-radius:3px;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;
+}
+.task-text{color:var(--text-mid);line-height:1.5}
+.task-text strong{color:var(--text);font-weight:500}
+.task-tag{
+  margin-left:auto;padding:2px 8px;border-radius:10px;font-size:10px;
+  font-family:var(--mono);flex-shrink:0;
+}
+.tt-fe{background:rgba(96,165,250,.1);color:var(--blue)}
+.tt-be{background:rgba(167,139,250,.1);color:var(--purple)}
+.tt-db{background:rgba(74,222,128,.1);color:var(--green)}
+.tt-3d{background:rgba(197,165,107,.1);color:var(--gold)}
+.tt-ux{background:rgba(251,146,60,.1);color:var(--orange)}
+.tt-devops{background:rgba(248,113,113,.1);color:var(--red)}
+
+/* ── PAGE SPEC ── */
+.page-spec{
+  border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:20px;
+}
+.page-spec-header{
+  padding:16px 24px;background:#111113;
+  display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid var(--border);
+}
+.page-icon{
+  width:32px;height:32px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;
+}
+.page-spec-title{font-family:var(--sans);font-size:15px;font-weight:600;color:var(--text)}
+.page-spec-route{font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-top:2px}
+.page-spec-body{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--border)}
+.page-spec-body>div{padding:20px 24px;border-right:1px solid var(--border)}
+.page-spec-body>div:last-child{border-right:none}
+.pspec-label{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px}
+.pspec-list{list-style:none}
+.pspec-list li{
+  font-size:12px;color:var(--text-mid);padding:4px 0;
+  border-bottom:1px solid rgba(42,42,48,.4);display:flex;align-items:center;gap:8px;
+}
+.pspec-list li:last-child{border-bottom:none}
+.pspec-list li::before{content:'→';color:var(--gold);font-size:10px;flex-shrink:0}
+.page-spec-anims{padding:16px 24px;background:rgba(197,165,107,.03)}
+.anim-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.anim-chip{
+  padding:4px 12px;border-radius:20px;font-size:11px;font-family:var(--mono);
+  background:rgba(197,165,107,.08);border:1px solid rgba(197,165,107,.2);color:var(--gold);
+}
+
+/* ── API ENDPOINT ── */
+.endpoint{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:14px 20px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;margin-bottom:10px;
+}
+.method{
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  padding:3px 10px;border-radius:4px;flex-shrink:0;letter-spacing:.05em;
+}
+.m-get{background:rgba(74,222,128,.12);color:var(--green);border:1px solid rgba(74,222,128,.25)}
+.m-post{background:rgba(96,165,250,.12);color:var(--blue);border:1px solid rgba(96,165,250,.25)}
+.m-put{background:rgba(197,165,107,.12);color:var(--gold);border:1px solid rgba(197,165,107,.25)}
+.m-delete{background:rgba(248,113,113,.12);color:var(--red);border:1px solid rgba(248,113,113,.25)}
+.m-patch{background:rgba(167,139,250,.12);color:var(--purple);border:1px solid rgba(167,139,250,.25)}
+.endpoint-path{font-family:var(--mono);font-size:13px;color:var(--text);font-weight:500}
+.endpoint-desc{font-size:12px;color:var(--text-dim);margin-top:3px}
+.endpoint-auth{
+  margin-left:auto;font-family:var(--mono);font-size:10px;
+  padding:2px 8px;border-radius:4px;flex-shrink:0;
+  background:rgba(248,113,113,.08);color:var(--red);border:1px solid rgba(248,113,113,.2);
+}
+
+/* ── TECH STACK ITEM ── */
+.stack-item{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 20px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;margin-bottom:10px;
+}
+.stack-icon{
+  width:40px;height:40px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+}
+.stack-name{font-family:var(--sans);font-size:15px;font-weight:600;color:var(--text)}
+.stack-role{font-size:12px;color:var(--text-dim);margin-top:2px}
+.stack-why{
+  margin-left:auto;font-size:12px;color:var(--text-dim);
+  max-width:280px;text-align:right;line-height:1.5;
+}
+
+/* ── ANIM SPEC ── */
+.anim-spec{
+  padding:20px 24px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;margin-bottom:12px;
+}
+.anim-name{font-family:var(--sans);font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px}
+.anim-props{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px}
+.anim-prop{font-family:var(--mono);font-size:11px;color:var(--text-dim)}
+.anim-prop span{color:var(--text-mid)}
+
+/* ── DB SCHEMA ── */
+.schema-table{
+  border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:20px;
+}
+.schema-header{
+  padding:14px 20px;background:#111113;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.schema-name{font-family:var(--mono);font-size:14px;font-weight:500;color:var(--blue)}
+.schema-body table{width:100%;border-collapse:collapse}
+.schema-body th{
+  padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text-dim);background:rgba(0,0,0,.2);
+  border-bottom:1px solid var(--border);text-align:left;
+}
+.schema-body td{padding:9px 16px;border-bottom:1px solid rgba(42,42,48,.4);font-size:12px}
+.schema-body tr:last-child td{border-bottom:none}
+.col-name{font-family:var(--mono);color:var(--text)}
+.col-type{font-family:var(--mono);color:var(--purple);font-size:11px}
+.col-constraint{font-family:var(--mono);color:var(--green);font-size:10px}
+.col-desc{color:var(--text-dim)}
+
+/* ── RISK TABLE ── */
+.risk-high{color:var(--red)}
+.risk-med{color:var(--orange)}
+.risk-low{color:var(--green)}
+
+/* ── TOC PROGRESS BAR ── */
+.progress-bar{
+  height:3px;background:var(--border);border-radius:2px;margin:12px 0;overflow:hidden;
+}
+.progress-fill{height:100%;background:linear-gradient(to right,var(--gold),var(--gold-dim));border-radius:2px}
+
+/* ── SCROLL PROGRESS ── */
+#scroll-bar{
+  position:fixed;top:0;left:0;height:3px;z-index:999;
+  background:linear-gradient(to right,var(--gold),var(--purple));
+  transition:width .1s;
+}
+</style>
+</head>
+<body>
+<div id="scroll-bar" style="width:0%"></div>
+
+<!-- ── SIDEBAR ── -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="title">Portfolio Roadmap</div>
+    <div class="sub">System Design v1.0</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Overview</div>
+    <a href="#overview" class="nav-link active">Project Overview</a>
+    <a href="#techstack" class="nav-link">Tech Stack</a>
+    <a href="#designsystem" class="nav-link">Design System</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Architecture</div>
+    <a href="#folderstructure" class="nav-link">Folder Structure</a>
+    <a href="#pages" class="nav-link">Pages <span class="badge">11</span></a>
+    <a href="#components" class="nav-link">Components <span class="badge">42</span></a>
+    <a href="#animations" class="nav-link">Animations & 3D</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Backend</div>
+    <a href="#api" class="nav-link">API Routes <span class="badge">24</span></a>
+    <a href="#database" class="nav-link">Database Schema</a>
+    <a href="#auth" class="nav-link">Auth & CMS</a>
+    <a href="#media" class="nav-link">Media & Storage</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Build</div>
+    <a href="#roadmap" class="nav-link">Build Roadmap</a>
+    <a href="#risks" class="nav-link">Risks & Decisions</a>
+    <a href="#deployment" class="nav-link">Deployment</a>
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- ── HERO BANNER ── -->
+  <div class="hero-banner">
+    <div class="hero-tag">System Design Document</div>
+    <h1 class="hero-title">Animation Portfolio<br><span>Full-Stack Build Plan</span></h1>
+    <p class="hero-desc">
+      Complete technical architecture for the Elara Voss animation portfolio — covering every page, 
+      component, animation, API endpoint, database schema, and build phase. This document is 
+      the single source of truth for the entire build.
+    </p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <div class="label">Framework</div>
+        <div class="value">Next.js 14 (App Router)</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Language</div>
+        <div class="value">TypeScript</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Styling</div>
+        <div class="value">Tailwind CSS + CSS Vars</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">3D Engine</div>
+        <div class="value">Three.js / R3F</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Database</div>
+        <div class="value">PostgreSQL (Supabase)</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Deploy</div>
+        <div class="value">Vercel</div>
+      </div>
+    </div>
+    <div style="margin-top:28px">
+      <span class="tag-pill tag-green">✓ 11 Pages</span>
+      <span class="tag-pill tag-blue">✓ 42 Components</span>
+      <span class="tag-pill tag-purple">✓ 24 API Endpoints</span>
+      <span class="tag-pill tag-gold">✓ 18 Animations</span>
+      <span class="tag-pill tag-orange">✓ 5 Build Phases</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 1 — OVERVIEW
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="overview">
+    <div class="section-header">
+      <div class="section-num">01 — Overview</div>
+      <h2 class="section-title">Project Definition</h2>
+      <p class="section-desc">A clean, 3D-enhanced, fully CMS-managed animation artist portfolio. Inspired by the minimal editorial layout of natalieroseyoung.com but elevated with live Three.js 3D scenes, smooth scroll animations, and a private admin dashboard for managing all artwork, categories, and site content.</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-title">🎯 Core Purpose</div>
+        <div class="card-body">Showcase animation work to studios, directors, and clients. Drive commissions and job inquiries. Position the artist as premium talent in the industry.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">👤 Primary Users</div>
+        <div class="card-body"><strong>Visitors:</strong> Studio recruiters, indie directors, fans, collaborators browsing the portfolio.<br><br><strong>Admin:</strong> The artist — managing projects, uploading work, updating bio, reading contact form messages.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">📦 Core Value</div>
+        <div class="card-body">A portfolio that feels like a living, breathing art installation — not a static webpage. The 3D scene and animations communicate the artist's craft before a single image loads.</div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:16px">
+      <div class="card">
+        <div class="card-title">✅ Must Have (V1)</div>
+        <div class="card-body">
+          Home with live 3D scene → Portfolio grid with category filtering → Individual project detail pages → Character Design / Props / Comics / Figures / Sketchbook category pages → About page → Contact form → Admin CMS dashboard → Image/video upload → Mobile responsive → SEO metadata
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🔮 Nice to Have (V2)</div>
+        <div class="card-body">
+          Blog/journal section → Password-protected client proofing gallery → Animation reel embed with custom player → Newsletter subscribe → Multi-language support → Dark/light mode toggle → Project collaboration request form
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 2 — TECH STACK
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="techstack">
+    <div class="section-header">
+      <div class="section-num">02 — Tech Stack</div>
+      <h2 class="section-title">Technology Choices</h2>
+      <p class="section-desc">Every choice below is intentional. The goal is the fastest build path to a production-grade result with the lowest operational burden.</p>
+    </div>
+
+    <div style="margin-bottom:8px;font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim)">Frontend</div>
+    <div class="stack-item">
+      <div class="stack-icon" style="background:rgba(0,0,0,.4)">▲</div>
+      <div><div class="stack-name">Next.js 14 (App Router)</div><div class="stack-role">Core framework — pages, routing, SSR, API routes</div></div>
+      <div class="stack-why">App Router enables server components for faster page loads. Built-in Image optimization. Zero-config deployment to Vercel.</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-icon" style="background:rgba(49,120,198,.15)">TS</div>
+      <div><div class="stack-name">TypeScript</div><div class="stack-role">Type safety across the entire codebase</div></div>
+      <div class="stack-why">Catches bugs before runtime. Essential for a CMS with complex content types and API responses.</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-icon" style="background:rgba(56,189,248,.1)">🌊</div>
+      <div><div class="stack-name">Tailwind CSS + CSS Custom Properties</div><div class="stack-role">Utility styling + design token variables</div></div>
+      <div class="stack-why">Design tokens (colors, fonts, spacing) live in CSS vars; Tailwind handles layout and responsive behavior. No runtime JS styling overhead.</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-icon" style="background:rgba(197,165,107,.1)">🔵</div>
+      <div><div class="stack-name">Three.js + React Three Fiber (R3F)</div><div class="stack-role">3D canvas background and decorative 3D elements</div></div>
+      <div class="stack-why">R3F integrates Three.js natively into React's component tree. Drei helpers accelerate common patterns (orbit, environment, effects).</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-icon" style="background:rgba(74,222,128,.1)">✨</div>
+      <div><div class="stack-name">Framer Motion</div><div class="stack-role">Page transitions, scroll reveal, micro-interactions</div></div>
+      <div class="stack-why">Best-in-class React animation library. useInView hook handles scroll-triggered animations. Layout animations for portfolio filtering.</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-icon" style="background:rgba(167,139,250,.1)">🎞</div>
+      <div><div class="stack-name">GSAP (ScrollTrigger)</div><div class="stack-role">Complex timeline animations and scroll-driven effects</div></div>
+      <div class="stack-why">Handles the marquee strip, hero stagger reveals, and any timeline-based sequences that Framer Motion can't handle cleanly.</div>
+    </div>
+
+    <div style="margin:24px 0 8px;font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim)">Backend & Data</div>
+    <div class="stack-item">
+      <div class="stack-icon" style="background:rgba(74,222,128,.1)">🗄</div>
+      <div><div class="stack-name">Supabase (PostgreSQL)</div><div class="stack-role">Database + auth + real-time + file storage</div></div>
+      <div class="stack-why">Managed PostgreSQL with a generous free tier. Built-in auth for the admin CMS. Storage bucket for project images and videos.</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-icon" style="background:rgba(96,165,250,.1)">🖼</div>
+      <div><div class="stack-name">Cloudinary</div><div class="stack-role">Image & video CDN with on-the-fly transforms</div></div>
+      <div class="stack-why">Automatic WebP conversion, responsive srcsets, video transcoding, and global CDN. Offloads all media serving from the app.</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-icon" style="background:rgba(248,113,113,.1)">📧</div>
+      <div><div class="stack-name">Resend (Email)</div><div class="stack-role">Contact form delivery + admin notifications</div></div>
+      <div class="stack-why">Modern developer-first email API. React Email for templating. Reliable deliverability.</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-icon" style="background:rgba(251,146,60,.1)">🔐</div>
+      <div><div class="stack-name">NextAuth.js v5</div><div class="stack-role">Admin authentication</div></div>
+      <div class="stack-why">Credentials provider for username/password admin login. JWT sessions. Protected API routes middleware.</div>
+    </div>
+
+    <div style="margin:24px 0 8px;font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim)">DevOps & Tooling</div>
+    <div class="grid-4">
+      <div class="card" style="padding:16px 20px">
+        <div class="card-title" style="font-size:14px">▲ Vercel</div>
+        <div class="card-body">Deployment, edge CDN, preview environments on every PR</div>
+      </div>
+      <div class="card" style="padding:16px 20px">
+        <div class="card-title" style="font-size:14px">🐙 GitHub</div>
+        <div class="card-body">Version control, PR workflow, GitHub Actions CI</div>
+      </div>
+      <div class="card" style="padding:16px 20px">
+        <div class="card-title" style="font-size:14px">🧪 Vitest</div>
+        <div class="card-body">Unit tests for utilities, API handlers, and validation</div>
+      </div>
+      <div class="card" style="padding:16px 20px">
+        <div class="card-title" style="font-size:14px">🎭 Playwright</div>
+        <div class="card-body">E2E tests for critical flows: contact form, admin login, project upload</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 3 — DESIGN SYSTEM
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="designsystem">
+    <div class="section-header">
+      <div class="section-num">03 — Design System</div>
+      <h2 class="section-title">Tokens, Typography & Spacing</h2>
+      <p class="section-desc">All visual decisions codified as CSS custom properties. Zero magic numbers anywhere in the codebase.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-lang">CSS — globals.css</div>
+        <div class="code-dots"><div class="code-dot" style="background:#FF5F56"></div><div class="code-dot" style="background:#FFBD2E"></div><div class="code-dot" style="background:#27C93F"></div></div>
+      </div>
+      <div class="code-body"><pre><span class="c-dim">/* ── COLOR TOKENS ─────────────────────────────────────── */</span>
+<span class="c-purple">:root</span> {
+  <span class="c-dim">/* Base surfaces */</span>
+  <span class="c-green">--color-cream</span>: <span class="c-gold">#F9F6F1</span>;       <span class="c-dim">/* Page background */</span>
+  <span class="c-green">--color-ivory</span>: <span class="c-gold">#EDEAE3</span>;       <span class="c-dim">/* Section alt background */</span>
+  <span class="c-green">--color-white</span>: <span class="c-gold">#FFFFFF</span>;       <span class="c-dim">/* Cards, inputs */</span>
+
+  <span class="c-dim">/* Text */</span>
+  <span class="c-green">--color-charcoal</span>: <span class="c-gold">#1C1917</span>;    <span class="c-dim">/* Primary text */</span>
+  <span class="c-green">--color-warm</span>: <span class="c-gold">#4A3F35</span>;        <span class="c-dim">/* Body paragraphs */</span>
+  <span class="c-green">--color-mid</span>: <span class="c-gold">#8C7B6E</span>;          <span class="c-dim">/* Supporting text */</span>
+  <span class="c-green">--color-dust</span>: <span class="c-gold">#C9BFB2</span>;         <span class="c-dim">/* Placeholder, disabled */</span>
+
+  <span class="c-dim">/* Accent */</span>
+  <span class="c-green">--color-gold</span>: <span class="c-gold">#B8965A</span>;         <span class="c-dim">/* Primary accent */</span>
+  <span class="c-green">--color-gold-light</span>: <span class="c-gold">#D4B47A</span>;   <span class="c-dim">/* Hover state, badges */</span>
+  <span class="c-green">--color-blush</span>: <span class="c-gold">#E2C9B5</span>;        <span class="c-dim">/* Card backgrounds (character) */</span>
+  <span class="c-green">--color-sage</span>: <span class="c-gold">#7B9E87</span>;         <span class="c-dim">/* Card backgrounds (nature) */</span>
+
+  <span class="c-dim">/* Borders */</span>
+  <span class="c-green">--color-border</span>: <span class="c-gold">rgba(184,150,90,.15)</span>;
+  <span class="c-green">--color-border-strong</span>: <span class="c-gold">rgba(184,150,90,.35)</span>;
+}
+
+<span class="c-dim">/* ── TYPOGRAPHY TOKENS ─────────────────────────────────── */</span>
+<span class="c-purple">:root</span> {
+  <span class="c-green">--font-serif</span>:   <span class="c-blue">'Cormorant Garamond'</span>, Georgia, serif;
+  <span class="c-green">--font-sans</span>:    <span class="c-blue">'Outfit'</span>, system-ui, sans-serif;
+  <span class="c-green">--font-mono</span>:    <span class="c-blue">'JetBrains Mono'</span>, monospace;
+
+  <span class="c-dim">/* Scale (1.333 Major Third ratio) */</span>
+  <span class="c-green">--text-xs</span>:  <span class="c-gold">10px</span>;   <span class="c-green">--text-sm</span>: <span class="c-gold">12px</span>;   <span class="c-green">--text-base</span>: <span class="c-gold">15px</span>;
+  <span class="c-green">--text-lg</span>:  <span class="c-gold">18px</span>;   <span class="c-green">--text-xl</span>: <span class="c-gold">24px</span>;   <span class="c-green">--text-2xl</span>: <span class="c-gold">32px</span>;
+  <span class="c-green">--text-3xl</span>: <span class="c-gold">44px</span>;   <span class="c-green">--text-4xl</span>:<span class="c-gold">60px</span>;   <span class="c-green">--text-5xl</span>: <span class="c-gold">80px</span>;
+  <span class="c-green">--text-hero</span>: <span class="c-blue">clamp(72px, 8vw, 120px)</span>;
+}
+
+<span class="c-dim">/* ── SPACING TOKENS ────────────────────────────────────── */</span>
+<span class="c-purple">:root</span> {
+  <span class="c-green">--space-section</span>:   <span class="c-gold">120px</span>;  <span class="c-dim">/* Between major sections */</span>
+  <span class="c-green">--space-container</span>: <span class="c-gold">56px</span>;   <span class="c-dim">/* Horizontal page padding */</span>
+  <span class="c-green">--space-grid-gap</span>:  <span class="c-gold">20px</span>;   <span class="c-dim">/* Portfolio grid gap */</span>
+  <span class="c-green">--space-card</span>:      <span class="c-gold">24px</span>;   <span class="c-dim">/* Internal card padding */</span>
+}
+
+<span class="c-dim">/* ── MOTION TOKENS ─────────────────────────────────────── */</span>
+<span class="c-purple">:root</span> {
+  <span class="c-green">--ease-smooth</span>:  <span class="c-blue">cubic-bezier(.4, 0, .2, 1)</span>;
+  <span class="c-green">--ease-spring</span>:  <span class="c-blue">cubic-bezier(.34, 1.56, .64, 1)</span>;
+  <span class="c-green">--ease-out</span>:     <span class="c-blue">cubic-bezier(0, 0, .2, 1)</span>;
+  <span class="c-green">--duration-fast</span>:   <span class="c-gold">150ms</span>;
+  <span class="c-green">--duration-base</span>:   <span class="c-gold">300ms</span>;
+  <span class="c-green">--duration-slow</span>:   <span class="c-gold">600ms</span>;
+  <span class="c-green">--duration-reveal</span>: <span class="c-gold">800ms</span>;
+}</pre></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 4 — FOLDER STRUCTURE
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="folderstructure">
+    <div class="section-header">
+      <div class="section-num">04 — Architecture</div>
+      <h2 class="section-title">Folder Structure</h2>
+      <p class="section-desc">Next.js 14 App Router structure. Every file has a clear home. Feature-first organization inside <code style="font-family:var(--mono);color:var(--gold)">/components</code>.</p>
+    </div>
+
+    <div class="filetree">
+<span class="c-gold">animation-portfolio/</span>
+├── <span class="ft-dir">src/</span>
+│   ├── <span class="ft-dir">app/</span>                           <span class="ft-comment">← Next.js App Router root</span>
+│   │   ├── <span class="ft-important">(site)/</span>                    <span class="ft-comment">← Public-facing route group</span>
+│   │   │   ├── <span class="ft-important">page.tsx</span>               <span class="ft-comment">← Home page  /</span>
+│   │   │   ├── <span class="ft-dir">work/</span>
+│   │   │   │   └── <span class="ft-file">page.tsx</span>           <span class="ft-comment">← All work  /work</span>
+│   │   │   ├── <span class="ft-dir">character-design/</span>
+│   │   │   │   └── <span class="ft-file">page.tsx</span>           <span class="ft-comment">← /character-design</span>
+│   │   │   ├── <span class="ft-dir">props/</span>
+│   │   │   │   └── <span class="ft-file">page.tsx</span>           <span class="ft-comment">← /props</span>
+│   │   │   ├── <span class="ft-dir">comics/</span>
+│   │   │   │   └── <span class="ft-file">page.tsx</span>           <span class="ft-comment">← /comics</span>
+│   │   │   ├── <span class="ft-dir">figures/</span>
+│   │   │   │   └── <span class="ft-file">page.tsx</span>           <span class="ft-comment">← /figures</span>
+│   │   │   ├── <span class="ft-dir">sketchbook/</span>
+│   │   │   │   └── <span class="ft-file">page.tsx</span>           <span class="ft-comment">← /sketchbook</span>
+│   │   │   ├── <span class="ft-dir">about/</span>
+│   │   │   │   └── <span class="ft-file">page.tsx</span>           <span class="ft-comment">← /about</span>
+│   │   │   ├── <span class="ft-dir">contact/</span>
+│   │   │   │   └── <span class="ft-file">page.tsx</span>           <span class="ft-comment">← /contact</span>
+│   │   │   ├── <span class="ft-dir">work/[slug]/</span>
+│   │   │   │   ├── <span class="ft-file">page.tsx</span>           <span class="ft-comment">← Project detail  /work/project-name</span>
+│   │   │   │   └── <span class="ft-file">loading.tsx</span>        <span class="ft-comment">← Skeleton loader</span>
+│   │   │   └── <span class="ft-file">layout.tsx</span>             <span class="ft-comment">← Site layout (header + footer)</span>
+│   │   │
+│   │   ├── <span class="ft-important">(admin)/</span>                   <span class="ft-comment">← Protected admin route group</span>
+│   │   │   ├── <span class="ft-dir">admin/</span>
+│   │   │   │   ├── <span class="ft-file">page.tsx</span>           <span class="ft-comment">← Dashboard /admin</span>
+│   │   │   │   ├── <span class="ft-dir">projects/</span>
+│   │   │   │   │   ├── <span class="ft-file">page.tsx</span>       <span class="ft-comment">← Project list</span>
+│   │   │   │   │   ├── <span class="ft-file">new/page.tsx</span>   <span class="ft-comment">← Upload new project</span>
+│   │   │   │   │   └── <span class="ft-file">[id]/page.tsx</span> <span class="ft-comment">← Edit project</span>
+│   │   │   │   ├── <span class="ft-dir">messages/</span>
+│   │   │   │   │   └── <span class="ft-file">page.tsx</span>       <span class="ft-comment">← Contact inbox</span>
+│   │   │   │   ├── <span class="ft-dir">about/</span>
+│   │   │   │   │   └── <span class="ft-file">page.tsx</span>       <span class="ft-comment">← Edit bio, skills, stats</span>
+│   │   │   │   └── <span class="ft-file">layout.tsx</span>         <span class="ft-comment">← Admin layout (sidebar nav)</span>
+│   │   │   └── <span class="ft-dir">login/</span>
+│   │   │       └── <span class="ft-file">page.tsx</span>           <span class="ft-comment">← /login</span>
+│   │   │
+│   │   ├── <span class="ft-dir">api/</span>                       <span class="ft-comment">← API Route handlers</span>
+│   │   │   ├── <span class="ft-dir">projects/</span>
+│   │   │   │   ├── <span class="ft-file">route.ts</span>           <span class="ft-comment">← GET all, POST new</span>
+│   │   │   │   └── <span class="ft-dir">[id]/</span>
+│   │   │   │       └── <span class="ft-file">route.ts</span>       <span class="ft-comment">← GET, PUT, DELETE by id</span>
+│   │   │   ├── <span class="ft-dir">categories/</span>
+│   │   │   │   └── <span class="ft-file">route.ts</span>           <span class="ft-comment">← GET all categories</span>
+│   │   │   ├── <span class="ft-dir">contact/</span>
+│   │   │   │   └── <span class="ft-file">route.ts</span>           <span class="ft-comment">← POST contact form</span>
+│   │   │   ├── <span class="ft-dir">messages/</span>
+│   │   │   │   ├── <span class="ft-file">route.ts</span>           <span class="ft-comment">← GET all messages (admin)</span>
+│   │   │   │   └── <span class="ft-dir">[id]/</span>
+│   │   │   │       └── <span class="ft-file">route.ts</span>       <span class="ft-comment">← PATCH read/delete</span>
+│   │   │   ├── <span class="ft-dir">about/</span>
+│   │   │   │   └── <span class="ft-file">route.ts</span>           <span class="ft-comment">← GET / PUT about content</span>
+│   │   │   ├── <span class="ft-dir">upload/</span>
+│   │   │   │   └── <span class="ft-file">route.ts</span>           <span class="ft-comment">← POST image/video to Cloudinary</span>
+│   │   │   └── <span class="ft-dir">auth/</span>
+│   │   │       └── <span class="ft-file">[...nextauth]/route.ts</span>
+│   │   │
+│   │   ├── <span class="ft-file">layout.tsx</span>                 <span class="ft-comment">← Root layout (fonts, metadata)</span>
+│   │   └── <span class="ft-file">globals.css</span>                <span class="ft-comment">← Design tokens + base styles</span>
+│   │
+│   ├── <span class="ft-dir">components/</span>
+│   │   ├── <span class="ft-dir">3d/</span>                        <span class="ft-comment">← Three.js / R3F components</span>
+│   │   │   ├── <span class="ft-important">HeroScene.tsx</span>          <span class="ft-comment">← Main 3D background canvas</span>
+│   │   │   ├── <span class="ft-file">FloatingGeometry.tsx</span>   <span class="ft-comment">← Individual 3D shape component</span>
+│   │   │   ├── <span class="ft-file">ParticleField.tsx</span>      <span class="ft-comment">← Particle system</span>
+│   │   │   ├── <span class="ft-file">TorusShape.tsx</span>         <span class="ft-comment">← Animated torus</span>
+│   │   │   ├── <span class="ft-file">IcosahedronShape.tsx</span>   <span class="ft-comment">← Animated icosahedron</span>
+│   │   │   └── <span class="ft-file">SceneLighting.tsx</span>      <span class="ft-comment">← R3F light setup</span>
+│   │   │
+│   │   ├── <span class="ft-dir">layout/</span>
+│   │   │   ├── <span class="ft-file">Header.tsx</span>             <span class="ft-comment">← Fixed nav header</span>
+│   │   │   ├── <span class="ft-file">Footer.tsx</span>             <span class="ft-comment">← Site footer</span>
+│   │   │   ├── <span class="ft-file">MarqueeStrip.tsx</span>       <span class="ft-comment">← Scrolling text strip</span>
+│   │   │   └── <span class="ft-file">PageTransition.tsx</span>     <span class="ft-comment">← Framer Motion page wrap</span>
+│   │   │
+│   │   ├── <span class="ft-dir">home/</span>
+│   │   │   ├── <span class="ft-important">HeroSection.tsx</span>        <span class="ft-comment">← Full hero with 3D + copy</span>
+│   │   │   ├── <span class="ft-file">HeroContent.tsx</span>        <span class="ft-comment">← Text + CTA buttons</span>
+│   │   │   └── <span class="ft-file">HeroBadge.tsx</span>          <span class="ft-comment">← Rotating circular badge</span>
+│   │   │
+│   │   ├── <span class="ft-dir">portfolio/</span>
+│   │   │   ├── <span class="ft-important">WorkGrid.tsx</span>           <span class="ft-comment">← Masonry grid + filter</span>
+│   │   │   ├── <span class="ft-file">WorkCard.tsx</span>           <span class="ft-comment">← Individual project card</span>
+│   │   │   ├── <span class="ft-file">FilterBar.tsx</span>          <span class="ft-comment">← Category filter buttons</span>
+│   │   │   ├── <span class="ft-file">CategoryHero.tsx</span>       <span class="ft-comment">← Hero for category pages</span>
+│   │   │   └── <span class="ft-file">ProjectDetail.tsx</span>      <span class="ft-comment">← Full project view layout</span>
+│   │   │
+│   │   ├── <span class="ft-dir">about/</span>
+│   │   │   ├── <span class="ft-file">AboutSection.tsx</span>       <span class="ft-comment">← About grid layout</span>
+│   │   │   ├── <span class="ft-file">SkillsGrid.tsx</span>         <span class="ft-comment">← Animated skill bars</span>
+│   │   │   └── <span class="ft-file">StatsDisplay.tsx</span>       <span class="ft-comment">← Number count-up stats</span>
+│   │   │
+│   │   ├── <span class="ft-dir">process/</span>
+│   │   │   ├── <span class="ft-file">ProcessSection.tsx</span>     <span class="ft-comment">← 4-step process</span>
+│   │   │   └── <span class="ft-file">ProcessStep.tsx</span>        <span class="ft-comment">← Individual step card</span>
+│   │   │
+│   │   ├── <span class="ft-dir">contact/</span>
+│   │   │   ├── <span class="ft-file">ContactForm.tsx</span>        <span class="ft-comment">← Validated contact form</span>
+│   │   │   └── <span class="ft-file">ContactSection.tsx</span>     <span class="ft-comment">← Full contact section</span>
+│   │   │
+│   │   ├── <span class="ft-dir">admin/</span>
+│   │   │   ├── <span class="ft-file">AdminSidebar.tsx</span>       <span class="ft-comment">← Admin navigation</span>
+│   │   │   ├── <span class="ft-file">ProjectForm.tsx</span>        <span class="ft-comment">← Upload/edit project form</span>
+│   │   │   ├── <span class="ft-file">ImageUploader.tsx</span>      <span class="ft-comment">← Drag-drop uploader</span>
+│   │   │   ├── <span class="ft-file">MessageList.tsx</span>        <span class="ft-comment">← Contact inbox list</span>
+│   │   │   └── <span class="ft-file">DashboardStats.tsx</span>     <span class="ft-comment">← Quick stats cards</span>
+│   │   │
+│   │   └── <span class="ft-dir">ui/</span>                        <span class="ft-comment">← Reusable primitives</span>
+│   │       ├── <span class="ft-file">Button.tsx</span>             <span class="ft-comment">← Primary + ghost variants</span>
+│   │       ├── <span class="ft-file">SectionLabel.tsx</span>       <span class="ft-comment">← "01 — Label" header</span>
+│   │       ├── <span class="ft-file">RevealWrapper.tsx</span>      <span class="ft-comment">← Framer Motion scroll reveal</span>
+│   │       ├── <span class="ft-file">CustomCursor.tsx</span>       <span class="ft-comment">← Dot + ring cursor</span>
+│   │       ├── <span class="ft-file">ScrollProgress.tsx</span>     <span class="ft-comment">← Top progress bar</span>
+│   │       ├── <span class="ft-file">LoadingSpinner.tsx</span>     <span class="ft-comment">← Form + image loading</span>
+│   │       └── <span class="ft-file">Toast.tsx</span>              <span class="ft-comment">← Success/error toasts</span>
+│   │
+│   ├── <span class="ft-dir">lib/</span>
+│   │   ├── <span class="ft-file">supabase.ts</span>                <span class="ft-comment">← Supabase client (browser + server)</span>
+│   │   ├── <span class="ft-file">cloudinary.ts</span>             <span class="ft-comment">← Upload helpers</span>
+│   │   ├── <span class="ft-file">email.ts</span>                   <span class="ft-comment">← Resend email functions</span>
+│   │   ├── <span class="ft-file">auth.ts</span>                    <span class="ft-comment">← NextAuth config</span>
+│   │   └── <span class="ft-file">validations.ts</span>            <span class="ft-comment">← Zod schemas for all forms</span>
+│   │
+│   ├── <span class="ft-dir">hooks/</span>
+│   │   ├── <span class="ft-file">useProjects.ts</span>             <span class="ft-comment">← Data fetching + mutations</span>
+│   │   ├── <span class="ft-file">useScrollReveal.ts</span>        <span class="ft-comment">← Intersection observer hook</span>
+│   │   ├── <span class="ft-file">useMousePosition.ts</span>       <span class="ft-comment">← Mouse tracking for 3D + cursor</span>
+│   │   ├── <span class="ft-file">useMediaQuery.ts</span>          <span class="ft-comment">← Responsive breakpoints</span>
+│   │   └── <span class="ft-file">useCountUp.ts</span>             <span class="ft-comment">← Animated number counter</span>
+│   │
+│   ├── <span class="ft-dir">types/</span>
+│   │   ├── <span class="ft-file">project.ts</span>                 <span class="ft-comment">← Project, Category, Image types</span>
+│   │   ├── <span class="ft-file">about.ts</span>                   <span class="ft-comment">← About content types</span>
+│   │   └── <span class="ft-file">api.ts</span>                     <span class="ft-comment">← API request/response types</span>
+│   │
+│   └── <span class="ft-dir">constants/</span>
+│       ├── <span class="ft-file">navigation.ts</span>             <span class="ft-comment">← Nav links array</span>
+│       └── <span class="ft-file">categories.ts</span>             <span class="ft-comment">← Category definitions</span>
+│
+├── <span class="ft-dir">public/</span>
+│   ├── <span class="ft-file">og-image.png</span>               <span class="ft-comment">← Open Graph social preview</span>
+│   └── <span class="ft-dir">fonts/</span>                     <span class="ft-comment">← Self-hosted fallback fonts</span>
+│
+├── <span class="ft-test">tests/</span>
+│   ├── <span class="ft-test">unit/</span>
+│   │   ├── <span class="ft-test">validations.test.ts</span>
+│   │   └── <span class="ft-test">api-handlers.test.ts</span>
+│   └── <span class="ft-test">e2e/</span>
+│       ├── <span class="ft-test">contact-form.spec.ts</span>
+│       ├── <span class="ft-test">admin-login.spec.ts</span>
+│       └── <span class="ft-test">project-upload.spec.ts</span>
+│
+├── <span class="ft-file">next.config.ts</span>
+├── <span class="ft-file">tailwind.config.ts</span>
+├── <span class="ft-file">tsconfig.json</span>
+├── <span class="ft-file">.env.local</span>                    <span class="ft-comment">← SUPABASE_URL, CLOUDINARY_KEY, RESEND_KEY</span>
+└── <span class="ft-file">package.json</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 5 — PAGES
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="pages">
+    <div class="section-header">
+      <div class="section-num">05 — Pages</div>
+      <h2 class="section-title">All 11 Pages — Detailed Spec</h2>
+      <p class="section-desc">Every page, its route, all sections it renders, and the animations it includes.</p>
+    </div>
+
+    <!-- Page 1: Home -->
+    <div class="page-spec">
+      <div class="page-spec-header">
+        <div class="page-icon" style="background:rgba(197,165,107,.12)">🏠</div>
+        <div>
+          <div class="page-spec-title">Home Page</div>
+          <div class="page-spec-route">Route: /   |   SSR   |   Priority: P0</div>
+        </div>
+      </div>
+      <div class="page-spec-body">
+        <div>
+          <div class="pspec-label">Sections (in order)</div>
+          <ul class="pspec-list">
+            <li>Hero (3D canvas + copy + CTAs)</li>
+            <li>Marquee strip (skills loop)</li>
+            <li>Featured Work grid (latest 6)</li>
+            <li>About teaser (split layout)</li>
+            <li>Process steps (4 cards)</li>
+            <li>Contact CTA section</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pspec-label">Key Components</div>
+          <ul class="pspec-list">
+            <li>HeroScene (Three.js)</li>
+            <li>HeroContent</li>
+            <li>HeroBadge</li>
+            <li>MarqueeStrip</li>
+            <li>WorkGrid (featured=true)</li>
+            <li>AboutSection</li>
+            <li>ProcessSection</li>
+            <li>ContactSection</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pspec-label">Data Fetched</div>
+          <ul class="pspec-list">
+            <li>GET /api/projects?featured=true</li>
+            <li>GET /api/about</li>
+            <li>Static: process steps</li>
+          </ul>
+        </div>
+      </div>
+      <div class="page-spec-anims">
+        <div class="pspec-label">Animations on this page</div>
+        <div class="anim-chips">
+          <span class="anim-chip">3D hero scene (Three.js)</span>
+          <span class="anim-chip">hero stagger reveal</span>
+          <span class="anim-chip">GSAP marquee scroll</span>
+          <span class="anim-chip">work card hover lift</span>
+          <span class="anim-chip">about scroll reveal</span>
+          <span class="anim-chip">skill bar count-up</span>
+          <span class="anim-chip">process card hover</span>
+          <span class="anim-chip">rotating hero badge</span>
+          <span class="anim-chip">custom cursor trail</span>
+          <span class="anim-chip">scroll progress bar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page 2: Work -->
+    <div class="page-spec">
+      <div class="page-spec-header">
+        <div class="page-icon" style="background:rgba(96,165,250,.12)">🎨</div>
+        <div>
+          <div class="page-spec-title">All Work</div>
+          <div class="page-spec-route">Route: /work   |   SSR with ISR   |   Priority: P0</div>
+        </div>
+      </div>
+      <div class="page-spec-body">
+        <div>
+          <div class="pspec-label">Sections</div>
+          <ul class="pspec-list">
+            <li>Page hero (title + filter bar)</li>
+            <li>Full masonry grid (all projects)</li>
+            <li>Load more button (pagination)</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pspec-label">Key Components</div>
+          <ul class="pspec-list">
+            <li>CategoryHero (title only)</li>
+            <li>FilterBar (all categories)</li>
+            <li>WorkGrid (all, paginated)</li>
+            <li>WorkCard ×N</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pspec-label">Data Fetched</div>
+          <ul class="pspec-list">
+            <li>GET /api/projects (all)</li>
+            <li>GET /api/categories</li>
+            <li>Client-side filter: no refetch</li>
+          </ul>
+        </div>
+      </div>
+      <div class="page-spec-anims">
+        <div class="pspec-label">Animations</div>
+        <div class="anim-chips">
+          <span class="anim-chip">filter Framer Motion layout</span>
+          <span class="anim-chip">staggered card entrance</span>
+          <span class="anim-chip">card hover overlay fade</span>
+          <span class="anim-chip">image zoom on hover</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pages 3-7: Category Pages -->
+    <div class="page-spec">
+      <div class="page-spec-header">
+        <div class="page-icon" style="background:rgba(167,139,250,.12)">📁</div>
+        <div>
+          <div class="page-spec-title">Category Pages (×5)</div>
+          <div class="page-spec-route">Routes: /character-design  /props  /comics  /figures  /sketchbook   |   SSR + ISR</div>
+        </div>
+      </div>
+      <div class="page-spec-body">
+        <div>
+          <div class="pspec-label">Sections</div>
+          <ul class="pspec-list">
+            <li>CategoryHero (title + count)</li>
+            <li>Category description paragraph</li>
+            <li>Filtered WorkGrid</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pspec-label">Key Components</div>
+          <ul class="pspec-list">
+            <li>CategoryHero</li>
+            <li>WorkGrid (category filtered)</li>
+            <li>WorkCard ×N</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pspec-label">Data Fetched</div>
+          <ul class="pspec-list">
+            <li>GET /api/projects?category=slug</li>
+            <li>generateStaticParams for all 5</li>
+          </ul>
+        </div>
+      </div>
+      <div class="page-spec-anims">
+        <div class="pspec-label">Animations</div>
+        <div class="anim-chips">
+          <span class="anim-chip">hero title slide-up</span>
+          <span class="anim-chip">grid stagger entrance</span>
+          <span class="anim-chip">card hover overlay</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page 8: Project Detail -->
+    <div class="page-spec">
+      <div class="page-spec-header">
+        <div class="page-icon" style="background:rgba(74,222,128,.12)">🖼</div>
+        <div>
+          <div class="page-spec-title">Project Detail</div>
+          <div class="page-spec-route">Route: /work/[slug]   |   SSR + generateStaticParams   |   Priority: P1</div>
+        </div>
+      </div>
+      <div class="page-spec-body">
+        <div>
+          <div class="pspec-label">Sections</div>
+          <ul class="pspec-list">
+            <li>Full-width hero image</li>
+            <li>Project title + meta</li>
+            <li>Description / artist notes</li>
+            <li>Image gallery (lightbox)</li>
+            <li>Video embed (if present)</li>
+            <li>Related projects (3 cards)</li>
+            <li>Back / next navigation</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pspec-label">Key Components</div>
+          <ul class="pspec-list">
+            <li>ProjectDetail</li>
+            <li>ImageGallery (lightbox)</li>
+            <li>VideoEmbed</li>
+            <li>WorkGrid (related, 3 items)</li>
+            <li>ProjectNav (prev/next)</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pspec-label">Data Fetched</div>
+          <ul class="pspec-list">
+            <li>GET /api/projects/[slug]</li>
+            <li>GET /api/projects?related=true</li>
+            <li>generateStaticParams: all slugs</li>
+          </ul>
+        </div>
+      </div>
+      <div class="page-spec-anims">
+        <div class="pspec-label">Animations</div>
+        <div class="anim-chips">
+          <span class="anim-chip">hero parallax scroll</span>
+          <span class="anim-chip">image gallery lightbox</span>
+          <span class="anim-chip">content fade-in</span>
+          <span class="anim-chip">related card stagger</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page 9: About -->
+    <div class="page-spec">
+      <div class="page-spec-header">
+        <div class="page-icon" style="background:rgba(251,146,60,.12)">👤</div>
+        <div>
+          <div class="page-spec-title">About</div>
+          <div class="page-spec-route">Route: /about   |   SSR   |   Priority: P1</div>
+        </div>
+      </div>
+      <div class="page-spec-body">
+        <div>
+          <div class="pspec-label">Sections</div>
+          <ul class="pspec-list">
+            <li>Full-bleed bio header</li>
+            <li>Artist statement paragraph</li>
+            <li>Animated stats row</li>
+            <li>Skills bars grid</li>
+            <li>Awards / exhibitions list</li>
+            <li>Clients / studios worked with</li>
+            <li>CV download button</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pspec-label">Key Components</div>
+          <ul class="pspec-list">
+            <li>AboutSection</li>
+            <li>StatsDisplay (count-up)</li>
+            <li>SkillsGrid</li>
+            <li>AwardsList</li>
+            <li>ClientLogos</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pspec-label">Data Fetched</div>
+          <ul class="pspec-list">
+            <li>GET /api/about</li>
+            <li>Dynamic from CMS</li>
+          </ul>
+        </div>
+      </div>
+      <div class="page-spec-anims">
+        <div class="pspec-label">Animations</div>
+        <div class="anim-chips">
+          <span class="anim-chip">stat count-up on scroll</span>
+          <span class="anim-chip">skill bar fill animation</span>
+          <span class="anim-chip">section reveal stagger</span>
+          <span class="anim-chip">client logo fade</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page 10: Contact -->
+    <div class="page-spec">
+      <div class="page-spec-header">
+        <div class="page-icon" style="background:rgba(248,113,113,.12)">✉️</div>
+        <div>
+          <div class="page-spec-title">Contact</div>
+          <div class="page-spec-route">Route: /contact   |   Client component   |   Priority: P1</div>
+        </div>
+      </div>
+      <div class="page-spec-body">
+        <div>
+          <div class="pspec-label">Form Fields</div>
+          <ul class="pspec-list">
+            <li>Name (required)</li>
+            <li>Email (required, validated)</li>
+            <li>Subject (dropdown)</li>
+            <li>Message (textarea, min 20 chars)</li>
+            <li>Budget range (optional dropdown)</li>
+            <li>Submit button + loading state</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pspec-label">Behavior</div>
+          <ul class="pspec-list">
+            <li>Zod validation client-side</li>
+            <li>POST to /api/contact</li>
+            <li>Email to artist via Resend</li>
+            <li>Save to messages DB table</li>
+            <li>Success toast + form reset</li>
+            <li>Honeypot spam protection</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pspec-label">API</div>
+          <ul class="pspec-list">
+            <li>POST /api/contact</li>
+            <li>Returns 200 on success</li>
+            <li>Rate limited: 5/hour per IP</li>
+          </ul>
+        </div>
+      </div>
+      <div class="page-spec-anims">
+        <div class="pspec-label">Animations</div>
+        <div class="anim-chips">
+          <span class="anim-chip">floating label inputs</span>
+          <span class="anim-chip">field focus border pulse</span>
+          <span class="anim-chip">submit button loading spin</span>
+          <span class="anim-chip">success state morph</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page 11: Admin -->
+    <div class="page-spec">
+      <div class="page-spec-header">
+        <div class="page-icon" style="background:rgba(167,139,250,.12)">⚙️</div>
+        <div>
+          <div class="page-spec-title">Admin CMS (4 sub-pages)</div>
+          <div class="page-spec-route">Routes: /admin  /admin/projects  /admin/projects/new  /admin/messages   |   Auth protected</div>
+        </div>
+      </div>
+      <div class="page-spec-body">
+        <div>
+          <div class="pspec-label">Dashboard Features</div>
+          <ul class="pspec-list">
+            <li>Project count by category</li>
+            <li>Unread messages count</li>
+            <li>Quick add project button</li>
+            <li>Recent activity feed</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pspec-label">Project Management</div>
+          <ul class="pspec-list">
+            <li>Drag-drop image upload</li>
+            <li>Multi-image per project</li>
+            <li>Title, description, category</li>
+            <li>Featured toggle</li>
+            <li>Published/draft toggle</li>
+            <li>Sort order drag-reorder</li>
+            <li>Delete with confirmation</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pspec-label">Messages Inbox</div>
+          <ul class="pspec-list">
+            <li>List all contact submissions</li>
+            <li>Mark as read/unread</li>
+            <li>Reply link (mailto)</li>
+            <li>Delete messages</li>
+            <li>Filter by read status</li>
+          </ul>
+        </div>
+      </div>
+      <div class="page-spec-anims">
+        <div class="pspec-label">Animations</div>
+        <div class="anim-chips">
+          <span class="anim-chip">drag-drop upload zone</span>
+          <span class="anim-chip">image preview appear</span>
+          <span class="anim-chip">toast notifications</span>
+          <span class="anim-chip">delete confirm modal</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 6 — ANIMATIONS & 3D
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="animations">
+    <div class="section-header">
+      <div class="section-num">06 — Motion</div>
+      <h2 class="section-title">All 18 Animations Specified</h2>
+      <p class="section-desc">Every animation defined with library, trigger, duration, and easing. Nothing left to guess.</p>
+    </div>
+
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Three.js / R3F — 3D Scene</div>
+
+    <div class="anim-spec">
+      <div class="anim-name">HeroScene — Live 3D Background Canvas</div>
+      <div class="card-body">Full-viewport Three.js canvas rendered behind the hero section. Contains: icosahedron (wireframe + solid), torus, octahedron, torus knot, floating sphere, and 200-point particle field. All objects respond to mouse position via smooth lerp on camera X/Y. Objects float up/down on sinusoidal time-based offset. Scene loads lazily after hero text is visible.</div>
+      <div class="anim-props">
+        <div class="anim-prop">Library: <span>React Three Fiber + Drei</span></div>
+        <div class="anim-prop">Trigger: <span>Page load (lazy, 300ms delay)</span></div>
+        <div class="anim-prop">Mouse: <span>Camera lerp 0.04 factor</span></div>
+        <div class="anim-prop">Float: <span>sin(t × 0.4–0.7) × 0.3–0.6 amplitude</span></div>
+        <div class="anim-prop">Performance: <span>devicePixelRatio capped at 2, pauses when tab hidden</span></div>
+      </div>
+    </div>
+
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:16px;margin-top:24px">Framer Motion — Scroll & Page Animations</div>
+
+    <div class="grid-2">
+      <div class="anim-spec">
+        <div class="anim-name">Hero Stagger Reveal</div>
+        <div class="card-body">Eyebrow, title line 1, title line 2, subtitle, description, and buttons each animate sequentially on page load.</div>
+        <div class="anim-props">
+          <div class="anim-prop">Trigger: <span>Page mount</span></div>
+          <div class="anim-prop">From: <span>y:30, opacity:0</span></div>
+          <div class="anim-prop">To: <span>y:0, opacity:1</span></div>
+          <div class="anim-prop">Stagger: <span>0.1s per element</span></div>
+          <div class="anim-prop">Duration: <span>0.8s ease-out</span></div>
+        </div>
+      </div>
+      <div class="anim-spec">
+        <div class="anim-name">Scroll Reveal (Universal)</div>
+        <div class="card-body">Any element with the RevealWrapper component animates in when it enters the viewport.</div>
+        <div class="anim-props">
+          <div class="anim-prop">Trigger: <span>IntersectionObserver threshold:0.15</span></div>
+          <div class="anim-prop">From: <span>y:40, opacity:0</span></div>
+          <div class="anim-prop">To: <span>y:0, opacity:1</span></div>
+          <div class="anim-prop">Duration: <span>0.8s var(--ease-smooth)</span></div>
+          <div class="anim-prop">Once: <span>true (no re-trigger)</span></div>
+        </div>
+      </div>
+      <div class="anim-spec">
+        <div class="anim-name">Portfolio Filter (Layout Animation)</div>
+        <div class="card-body">When a category filter is selected, cards animate out/in using Framer Motion's AnimatePresence + layout prop so positions smoothly transition.</div>
+        <div class="anim-props">
+          <div class="anim-prop">Library: <span>Framer Motion AnimatePresence</span></div>
+          <div class="anim-prop">Filtered out: <span>scale:0.95, opacity:0</span></div>
+          <div class="anim-prop">Filtered in: <span>scale:1, opacity:1, stagger:0.04s</span></div>
+          <div class="anim-prop">Layout: <span>Framer Motion layout prop</span></div>
+        </div>
+      </div>
+      <div class="anim-spec">
+        <div class="anim-name">Work Card Hover</div>
+        <div class="card-body">On card hover: overlay fades in (opacity 0→1), inner image scales up slightly, card lifts (translateY -4px). On leave: all reversed.</div>
+        <div class="anim-props">
+          <div class="anim-prop">Overlay: <span>opacity 0→1, 0.4s ease</span></div>
+          <div class="anim-prop">Image: <span>scale 1→1.04, 0.6s ease</span></div>
+          <div class="anim-prop">Card lift: <span>translateY 0→-4px, 0.3s ease</span></div>
+        </div>
+      </div>
+      <div class="anim-spec">
+        <div class="anim-name">Page Transitions</div>
+        <div class="card-body">Between pages: outgoing page fades + slides up, incoming page fades + slides up from below. Handled by PageTransition wrapper in layout.</div>
+        <div class="anim-props">
+          <div class="anim-prop">Exit: <span>y:0→-20, opacity:1→0, 0.3s</span></div>
+          <div class="anim-prop">Enter: <span>y:20→0, opacity:0→1, 0.5s</span></div>
+          <div class="anim-prop">Easing: <span>var(--ease-smooth)</span></div>
+        </div>
+      </div>
+      <div class="anim-spec">
+        <div class="anim-name">Skill Bar Fill</div>
+        <div class="card-body">When About section enters viewport, each skill bar fills from left to right with a staggered delay. Numbers count up simultaneously.</div>
+        <div class="anim-props">
+          <div class="anim-prop">Trigger: <span>IntersectionObserver</span></div>
+          <div class="anim-prop">Transform: <span>scaleX(0→var(--width))</span></div>
+          <div class="anim-prop">Duration: <span>1.2s cubic-bezier(.4,0,.2,1)</span></div>
+          <div class="anim-prop">Stagger: <span>120ms per bar</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--purple);margin-bottom:16px;margin-top:24px">GSAP — Marquee & Complex Timelines</div>
+
+    <div class="grid-2">
+      <div class="anim-spec">
+        <div class="anim-name">Marquee Strip (GSAP)</div>
+        <div class="card-body">Infinite horizontal scroll of skills text. Cloned to fill width seamlessly. Pauses on hover.</div>
+        <div class="anim-props">
+          <div class="anim-prop">Library: <span>GSAP gsap.to()</span></div>
+          <div class="anim-prop">Duration: <span>30s linear infinite</span></div>
+          <div class="anim-prop">Clone: <span>Duplicate inner to fill seamlessly</span></div>
+          <div class="anim-prop">Hover: <span>gsap.to timeScale(0.1)</span></div>
+        </div>
+      </div>
+      <div class="anim-spec">
+        <div class="anim-name">Stat Count-Up</div>
+        <div class="card-body">Number stats animate from 0 to their final value when the about section scrolls into view.</div>
+        <div class="anim-props">
+          <div class="anim-prop">Library: <span>useCountUp custom hook</span></div>
+          <div class="anim-prop">Trigger: <span>IntersectionObserver</span></div>
+          <div class="anim-prop">Easing: <span>GSAP Power2.easeOut</span></div>
+          <div class="anim-prop">Duration: <span>1.8s</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--green);margin-bottom:16px;margin-top:24px">CSS — Cursor, Progress, Micro-interactions</div>
+
+    <div class="grid-3">
+      <div class="anim-spec">
+        <div class="anim-name">Custom Cursor</div>
+        <div class="card-body">Dot follows mouse precisely. Ring lags behind with lerp. Ring scales up (2×) and changes color on hoverable elements.</div>
+        <div class="anim-props">
+          <div class="anim-prop">Dot: <span>Direct mouse coords</span></div>
+          <div class="anim-prop">Ring: <span>rAF lerp factor 0.14</span></div>
+          <div class="anim-prop">Hover: <span>ring scale 1→1.6</span></div>
+        </div>
+      </div>
+      <div class="anim-spec">
+        <div class="anim-name">Scroll Progress Bar</div>
+        <div class="card-body">Thin gold bar at top of page that fills as user scrolls. Uses CSS custom property updated by JS scroll listener.</div>
+        <div class="anim-props">
+          <div class="anim-prop">Method: <span>CSS width% from scrollY</span></div>
+          <div class="anim-prop">Update: <span>requestAnimationFrame</span></div>
+          <div class="anim-prop">Color: <span>gold → light-gold gradient</span></div>
+        </div>
+      </div>
+      <div class="anim-spec">
+        <div class="anim-name">Rotating Badge</div>
+        <div class="card-body">Circular badge in hero rotates 360° on a 20s loop using CSS animation.</div>
+        <div class="anim-props">
+          <div class="anim-prop">Method: <span>CSS @keyframes rotate</span></div>
+          <div class="anim-prop">Duration: <span>20s linear infinite</span></div>
+          <div class="anim-prop">Inner: <span>Counter-rotates to stay readable</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 7 — API ROUTES
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="api">
+    <div class="section-header">
+      <div class="section-num">07 — API</div>
+      <h2 class="section-title">24 API Endpoints</h2>
+      <p class="section-desc">All routes are Next.js Route Handlers in <code style="font-family:var(--mono);color:var(--gold)">src/app/api/</code>. Protected routes require a valid NextAuth session JWT.</p>
+    </div>
+
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px">Projects</div>
+    <div class="endpoint"><span class="method m-get">GET</span><div><div class="endpoint-path">/api/projects</div><div class="endpoint-desc">List all published projects. Query params: ?category=slug, ?featured=true, ?limit=6, ?offset=0</div></div></div>
+    <div class="endpoint"><span class="method m-post">POST</span><div><div class="endpoint-path">/api/projects</div><div class="endpoint-desc">Create a new project. Body: {title, description, category_id, images[], featured, published, sort_order}</div></div><span class="endpoint-auth">Admin Only</span></div>
+    <div class="endpoint"><span class="method m-get">GET</span><div><div class="endpoint-path">/api/projects/[id]</div><div class="endpoint-desc">Get a single project by ID or slug. Returns project + images + related projects</div></div></div>
+    <div class="endpoint"><span class="method m-put">PUT</span><div><div class="endpoint-path">/api/projects/[id]</div><div class="endpoint-desc">Update project fields. Partial updates supported (PATCH semantics with PUT)</div></div><span class="endpoint-auth">Admin Only</span></div>
+    <div class="endpoint"><span class="method m-delete">DELETE</span><div><div class="endpoint-path">/api/projects/[id]</div><div class="endpoint-desc">Soft delete (sets published=false). Hard delete via ?permanent=true. Also deletes Cloudinary assets.</div></div><span class="endpoint-auth">Admin Only</span></div>
+    <div class="endpoint"><span class="method m-patch">PATCH</span><div><div class="endpoint-path">/api/projects/[id]/order</div><div class="endpoint-desc">Update sort_order for drag-reorder. Body: {order: number}</div></div><span class="endpoint-auth">Admin Only</span></div>
+
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px;margin-top:24px">Categories</div>
+    <div class="endpoint"><span class="method m-get">GET</span><div><div class="endpoint-path">/api/categories</div><div class="endpoint-desc">List all categories with project count per category</div></div></div>
+    <div class="endpoint"><span class="method m-post">POST</span><div><div class="endpoint-path">/api/categories</div><div class="endpoint-desc">Create category. Body: {name, slug, description, color}</div></div><span class="endpoint-auth">Admin Only</span></div>
+    <div class="endpoint"><span class="method m-put">PUT</span><div><div class="endpoint-path">/api/categories/[id]</div><div class="endpoint-desc">Update category metadata</div></div><span class="endpoint-auth">Admin Only</span></div>
+
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px;margin-top:24px">Contact & Messages</div>
+    <div class="endpoint"><span class="method m-post">POST</span><div><div class="endpoint-path">/api/contact</div><div class="endpoint-desc">Submit contact form. Validates with Zod, saves to messages table, sends email via Resend. Rate limited 5/hr per IP.</div></div></div>
+    <div class="endpoint"><span class="method m-get">GET</span><div><div class="endpoint-path">/api/messages</div><div class="endpoint-desc">List all contact messages. Query: ?read=false for unread only. Sorted by created_at DESC.</div></div><span class="endpoint-auth">Admin Only</span></div>
+    <div class="endpoint"><span class="method m-patch">PATCH</span><div><div class="endpoint-path">/api/messages/[id]</div><div class="endpoint-desc">Mark message as read/unread. Body: {read: boolean}</div></div><span class="endpoint-auth">Admin Only</span></div>
+    <div class="endpoint"><span class="method m-delete">DELETE</span><div><div class="endpoint-path">/api/messages/[id]</div><div class="endpoint-desc">Permanently delete a message from inbox</div></div><span class="endpoint-auth">Admin Only</span></div>
+
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px;margin-top:24px">About Content & Media</div>
+    <div class="endpoint"><span class="method m-get">GET</span><div><div class="endpoint-path">/api/about</div><div class="endpoint-desc">Returns artist bio, skills[], stats[], awards[], client_logos[]. Cached at edge for 1 hour.</div></div></div>
+    <div class="endpoint"><span class="method m-put">PUT</span><div><div class="endpoint-path">/api/about</div><div class="endpoint-desc">Update any about content field. Partial update. Revalidates cache on write.</div></div><span class="endpoint-auth">Admin Only</span></div>
+    <div class="endpoint"><span class="method m-post">POST</span><div><div class="endpoint-path">/api/upload</div><div class="endpoint-desc">Upload image or video to Cloudinary. Returns {url, public_id, width, height, format}. Max 50MB.</div></div><span class="endpoint-auth">Admin Only</span></div>
+    <div class="endpoint"><span class="method m-delete">DELETE</span><div><div class="endpoint-path">/api/upload/[publicId]</div><div class="endpoint-desc">Delete asset from Cloudinary by public_id</div></div><span class="endpoint-auth">Admin Only</span></div>
+
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px;margin-top:24px">Auth</div>
+    <div class="endpoint"><span class="method m-post">POST</span><div><div class="endpoint-path">/api/auth/[...nextauth]</div><div class="endpoint-desc">NextAuth handler. Supports: credentials (admin login), session, signout</div></div></div>
+    <div class="endpoint"><span class="method m-get">GET</span><div><div class="endpoint-path">/api/auth/session</div><div class="endpoint-desc">Returns current session. Used by admin layout to check auth state.</div></div></div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 8 — DATABASE
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="database">
+    <div class="section-header">
+      <div class="section-num">08 — Database</div>
+      <h2 class="section-title">PostgreSQL Schema</h2>
+      <p class="section-desc">5 tables. Managed on Supabase. Row Level Security enabled on all tables — admin writes, public reads on published content only.</p>
+    </div>
+
+    <div class="schema-table">
+      <div class="schema-header"><span class="schema-name">categories</span></div>
+      <div class="schema-body">
+        <table><thead><tr><th>Column</th><th>Type</th><th>Constraint</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td class="col-name">id</td><td class="col-type">uuid</td><td class="col-constraint">PK, default gen_random_uuid()</td><td class="col-desc">Unique category ID</td></tr>
+          <tr><td class="col-name">name</td><td class="col-type">varchar(100)</td><td class="col-constraint">NOT NULL, UNIQUE</td><td class="col-desc">Display name: "Character Design"</td></tr>
+          <tr><td class="col-name">slug</td><td class="col-type">varchar(100)</td><td class="col-constraint">NOT NULL, UNIQUE</td><td class="col-desc">URL slug: "character-design"</td></tr>
+          <tr><td class="col-name">description</td><td class="col-type">text</td><td class="col-constraint">–</td><td class="col-desc">Category page description</td></tr>
+          <tr><td class="col-name">color</td><td class="col-type">varchar(20)</td><td class="col-constraint">–</td><td class="col-desc">Hex color for category badge</td></tr>
+          <tr><td class="col-name">sort_order</td><td class="col-type">integer</td><td class="col-constraint">default 0</td><td class="col-desc">Nav menu order</td></tr>
+          <tr><td class="col-name">created_at</td><td class="col-type">timestamptz</td><td class="col-constraint">default now()</td><td class="col-desc">–</td></tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="schema-table">
+      <div class="schema-header"><span class="schema-name">projects</span></div>
+      <div class="schema-body">
+        <table><thead><tr><th>Column</th><th>Type</th><th>Constraint</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td class="col-name">id</td><td class="col-type">uuid</td><td class="col-constraint">PK</td><td class="col-desc">–</td></tr>
+          <tr><td class="col-name">title</td><td class="col-type">varchar(200)</td><td class="col-constraint">NOT NULL</td><td class="col-desc">Project title</td></tr>
+          <tr><td class="col-name">slug</td><td class="col-type">varchar(200)</td><td class="col-constraint">UNIQUE, NOT NULL</td><td class="col-desc">URL-safe slug (auto-generated)</td></tr>
+          <tr><td class="col-name">description</td><td class="col-type">text</td><td class="col-constraint">–</td><td class="col-desc">Artist notes / project description</td></tr>
+          <tr><td class="col-name">category_id</td><td class="col-type">uuid</td><td class="col-constraint">FK → categories.id</td><td class="col-desc">–</td></tr>
+          <tr><td class="col-name">cover_image_url</td><td class="col-type">text</td><td class="col-constraint">NOT NULL</td><td class="col-desc">Cloudinary URL for grid thumbnail</td></tr>
+          <tr><td class="col-name">cover_image_blur</td><td class="col-type">text</td><td class="col-constraint">–</td><td class="col-desc">Base64 blur placeholder</td></tr>
+          <tr><td class="col-name">featured</td><td class="col-type">boolean</td><td class="col-constraint">default false</td><td class="col-desc">Show on home page featured section</td></tr>
+          <tr><td class="col-name">published</td><td class="col-type">boolean</td><td class="col-constraint">default false</td><td class="col-desc">Visible to public when true</td></tr>
+          <tr><td class="col-name">sort_order</td><td class="col-type">integer</td><td class="col-constraint">default 0</td><td class="col-desc">Manual display order within category</td></tr>
+          <tr><td class="col-name">year</td><td class="col-type">smallint</td><td class="col-constraint">–</td><td class="col-desc">Year completed</td></tr>
+          <tr><td class="col-name">tools</td><td class="col-type">text[]</td><td class="col-constraint">–</td><td class="col-desc">Software used: ["Blender", "Procreate"]</td></tr>
+          <tr><td class="col-name">video_url</td><td class="col-type">text</td><td class="col-constraint">–</td><td class="col-desc">Vimeo/YouTube embed URL</td></tr>
+          <tr><td class="col-name">created_at</td><td class="col-type">timestamptz</td><td class="col-constraint">default now()</td><td class="col-desc">–</td></tr>
+          <tr><td class="col-name">updated_at</td><td class="col-type">timestamptz</td><td class="col-constraint">auto-update trigger</td><td class="col-desc">–</td></tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="schema-table">
+      <div class="schema-header"><span class="schema-name">project_images</span></div>
+      <div class="schema-body">
+        <table><thead><tr><th>Column</th><th>Type</th><th>Constraint</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td class="col-name">id</td><td class="col-type">uuid</td><td class="col-constraint">PK</td><td class="col-desc">–</td></tr>
+          <tr><td class="col-name">project_id</td><td class="col-type">uuid</td><td class="col-constraint">FK → projects.id ON DELETE CASCADE</td><td class="col-desc">–</td></tr>
+          <tr><td class="col-name">url</td><td class="col-type">text</td><td class="col-constraint">NOT NULL</td><td class="col-desc">Cloudinary URL</td></tr>
+          <tr><td class="col-name">cloudinary_id</td><td class="col-type">text</td><td class="col-constraint">NOT NULL</td><td class="col-desc">For deletion from Cloudinary</td></tr>
+          <tr><td class="col-name">width</td><td class="col-type">integer</td><td class="col-constraint">–</td><td class="col-desc">For Next.js Image sizing</td></tr>
+          <tr><td class="col-name">height</td><td class="col-type">integer</td><td class="col-constraint">–</td><td class="col-desc">–</td></tr>
+          <tr><td class="col-name">alt</td><td class="col-type">varchar(300)</td><td class="col-constraint">–</td><td class="col-desc">Image alt text for accessibility</td></tr>
+          <tr><td class="col-name">sort_order</td><td class="col-type">integer</td><td class="col-constraint">default 0</td><td class="col-desc">Gallery display order</td></tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="schema-table">
+      <div class="schema-header"><span class="schema-name">messages</span></div>
+      <div class="schema-body">
+        <table><thead><tr><th>Column</th><th>Type</th><th>Constraint</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td class="col-name">id</td><td class="col-type">uuid</td><td class="col-constraint">PK</td><td class="col-desc">–</td></tr>
+          <tr><td class="col-name">name</td><td class="col-type">varchar(200)</td><td class="col-constraint">NOT NULL</td><td class="col-desc">Sender name</td></tr>
+          <tr><td class="col-name">email</td><td class="col-type">varchar(300)</td><td class="col-constraint">NOT NULL</td><td class="col-desc">Sender email</td></tr>
+          <tr><td class="col-name">subject</td><td class="col-type">varchar(200)</td><td class="col-constraint">–</td><td class="col-desc">Selected subject option</td></tr>
+          <tr><td class="col-name">message</td><td class="col-type">text</td><td class="col-constraint">NOT NULL</td><td class="col-desc">Message body</td></tr>
+          <tr><td class="col-name">budget</td><td class="col-type">varchar(100)</td><td class="col-constraint">–</td><td class="col-desc">Budget range selected</td></tr>
+          <tr><td class="col-name">read</td><td class="col-type">boolean</td><td class="col-constraint">default false</td><td class="col-desc">Admin read status</td></tr>
+          <tr><td class="col-name">ip_address</td><td class="col-type">inet</td><td class="col-constraint">–</td><td class="col-desc">For rate limiting</td></tr>
+          <tr><td class="col-name">created_at</td><td class="col-type">timestamptz</td><td class="col-constraint">default now()</td><td class="col-desc">–</td></tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="schema-table">
+      <div class="schema-header"><span class="schema-name">about_content</span></div>
+      <div class="schema-body">
+        <table><thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td class="col-name">id</td><td class="col-type">integer</td><td class="col-desc">Always 1 (single row)</td></tr>
+          <tr><td class="col-name">bio</td><td class="col-type">text</td><td class="col-desc">Main artist bio paragraph(s)</td></tr>
+          <tr><td class="col-name">skills</td><td class="col-type">jsonb</td><td class="col-desc">[{name, level, icon}]</td></tr>
+          <tr><td class="col-name">stats</td><td class="col-type">jsonb</td><td class="col-desc">[{label, value}]</td></tr>
+          <tr><td class="col-name">awards</td><td class="col-type">jsonb</td><td class="col-desc">[{title, year, organization}]</td></tr>
+          <tr><td class="col-name">cv_url</td><td class="col-type">text</td><td class="col-desc">Cloudinary PDF URL</td></tr>
+          <tr><td class="col-name">updated_at</td><td class="col-type">timestamptz</td><td class="col-desc">–</td></tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 9 — AUTH & CMS
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="auth">
+    <div class="section-header">
+      <div class="section-num">09 — Auth & CMS</div>
+      <h2 class="section-title">Admin Authentication Flow</h2>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><div class="code-lang">Auth Flow</div><div class="code-dots"><div class="code-dot" style="background:#FF5F56"></div><div class="code-dot" style="background:#FFBD2E"></div><div class="code-dot" style="background:#27C93F"></div></div></div>
+      <div class="code-body"><pre><span class="c-dim">// 1. Admin visits /admin → middleware.ts checks session</span>
+<span class="c-dim">// 2. No session → redirect to /login</span>
+<span class="c-dim">// 3. Login form POSTs credentials to /api/auth/callback/credentials</span>
+<span class="c-dim">// 4. NextAuth validates against env vars (single admin user)</span>
+<span class="c-dim">// 5. Valid → JWT session created, redirect to /admin</span>
+<span class="c-dim">// 6. All /api/* admin routes check getServerSession()</span>
+
+<span class="c-dim">// middleware.ts</span>
+<span class="c-blue">export</span> { <span class="c-gold">default</span> } <span class="c-blue">from</span> <span class="c-green">'next-auth/middleware'</span>
+<span class="c-blue">export</span> <span class="c-purple">const</span> <span class="c-gold">config</span> = {
+  matcher: [<span class="c-green">'/admin/:path*'</span>, <span class="c-green">'/api/projects/(POST|PUT|DELETE)/:path*'</span>]
+}
+
+<span class="c-dim">// lib/auth.ts — single admin credentials</span>
+<span class="c-blue">export</span> <span class="c-purple">const</span> <span class="c-gold">authOptions</span> = {
+  providers: [CredentialsProvider({
+    async authorize(credentials) {
+      <span class="c-blue">if</span> (
+        credentials?.email    === process.env.ADMIN_EMAIL &amp;&amp;
+        credentials?.password === process.env.ADMIN_PASSWORD
+      ) <span class="c-blue">return</span> { id: <span class="c-green">'1'</span>, email: credentials.email }
+      <span class="c-blue">return null</span>
+    }
+  })]
+}</pre></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <div class="card-title">🔐 Environment Variables Required</div>
+      <div class="card-body">
+        <code style="font-family:var(--mono);font-size:12px;color:var(--text-mid)">NEXTAUTH_SECRET</code> — 32+ char random string for JWT signing<br>
+        <code style="font-family:var(--mono);font-size:12px;color:var(--text-mid)">ADMIN_EMAIL</code> — Admin login email<br>
+        <code style="font-family:var(--mono);font-size:12px;color:var(--text-mid)">ADMIN_PASSWORD</code> — Admin login password (hash with bcrypt in production)<br>
+        <code style="font-family:var(--mono);font-size:12px;color:var(--text-mid)">SUPABASE_URL + SUPABASE_ANON_KEY + SUPABASE_SERVICE_KEY</code><br>
+        <code style="font-family:var(--mono);font-size:12px;color:var(--text-mid)">CLOUDINARY_CLOUD_NAME + CLOUDINARY_API_KEY + CLOUDINARY_API_SECRET</code><br>
+        <code style="font-family:var(--mono);font-size:12px;color:var(--text-mid)">RESEND_API_KEY</code><br>
+        <code style="font-family:var(--mono);font-size:12px;color:var(--text-mid)">CONTACT_EMAIL</code> — Where contact form emails are delivered
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 10 — BUILD ROADMAP
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="roadmap">
+    <div class="section-header">
+      <div class="section-num">10 — Roadmap</div>
+      <h2 class="section-title">5-Phase Build Plan</h2>
+      <p class="section-desc">Estimated 8–10 weeks from start to production launch. Each phase has a clear exit criteria before moving forward.</p>
+    </div>
+
+    <!-- Phase 0 -->
+    <div class="phase phase-0">
+      <div class="phase-header">
+        <div class="phase-num">0</div>
+        <div class="phase-info">
+          <div class="name">Foundation — Project Setup</div>
+          <div class="timeline">Week 1 — 3–4 days</div>
+        </div>
+        <span class="phase-status status-todo">To Do</span>
+      </div>
+      <div class="phase-body">
+        <div style="font-size:12px;color:var(--text-dim);margin-bottom:16px">Goal: Working skeleton with all tooling configured. Nothing visual yet — just the wiring.</div>
+        <ul class="task-list">
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Init Next.js 14 + TypeScript</strong> — npx create-next-app with app router, strict mode, path aliases</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Configure Tailwind CSS</strong> — Install, add design tokens as Tailwind theme extensions, set up CSS variables in globals.css</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Install all dependencies</strong> — three, @react-three/fiber, @react-three/drei, framer-motion, gsap, zod, @supabase/supabase-js, next-auth, cloudinary</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Set up Supabase project</strong> — Create project, run schema migrations, configure RLS policies, seed categories</div><span class="task-tag tt-db">Database</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Configure Cloudinary account</strong> — Set up upload presets, folder structure, webhook for size metadata</div><span class="task-tag tt-be">Backend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Create lib/ utilities</strong> — supabase.ts (browser + server clients), cloudinary.ts helpers, email.ts template</div><span class="task-tag tt-be">Backend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Set up NextAuth</strong> — auth.ts config, middleware.ts protection, /api/auth handler</div><span class="task-tag tt-be">Backend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Create type definitions</strong> — types/project.ts, types/about.ts, types/api.ts with all interfaces</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Deploy skeleton to Vercel</strong> — Connect GitHub, set environment variables, confirm CI/CD pipeline works</div><span class="task-tag tt-devops">DevOps</span></li>
+        </ul>
+        <div style="margin-top:16px;padding:12px 16px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);border-radius:6px;font-size:12px;color:var(--text-mid)">
+          <strong style="color:var(--purple)">Exit Criteria:</strong> npm run build passes. Vercel deployment live. Supabase tables created. Empty Next.js app at domain.
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 1 -->
+    <div class="phase phase-1">
+      <div class="phase-header">
+        <div class="phase-num">1</div>
+        <div class="phase-info">
+          <div class="name">Core Design — Home & Portfolio</div>
+          <div class="timeline">Week 2–4 — 10–12 days</div>
+        </div>
+        <span class="phase-status status-todo">To Do</span>
+      </div>
+      <div class="phase-body">
+        <div style="font-size:12px;color:var(--text-dim);margin-bottom:16px">Goal: The homepage with all sections working and looking right. This is the most important phase — the centrepiece of the portfolio.</div>
+        <ul class="task-list">
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build Header component</strong> — Fixed nav, logo, links, compact-on-scroll, active state tracking</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build HeroScene (Three.js/R3F)</strong> — Icosahedron, torus, octahedron, torus knot, particle field, mouse-responsive camera</div><span class="task-tag tt-3d">3D</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build HeroContent</strong> — Eyebrow, title (Cormorant Garamond), subtitle, description, CTA buttons, stagger reveal animation</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build HeroBadge</strong> — Rotating circular badge with CSS animation, counter-rotating inner text</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build MarqueeStrip (GSAP)</strong> — Infinite scrolling skills text, pause on hover, seamless loop</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build WorkCard & WorkGrid</strong> — Masonry CSS grid layout with all 10 different size positions, hover overlay animation</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build FilterBar</strong> — Category filter buttons with Framer Motion AnimatePresence for grid layout transitions</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build AboutSection</strong> — Split grid, bio text, StatsDisplay count-up, SkillsGrid with animated bars</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build ProcessSection</strong> — 4-step cards with hover lift, step numbers, icons</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build ContactSection</strong> — Large typography CTA, email link, social links row</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build CustomCursor</strong> — Dot + lagging ring, hover state size change, hide on mobile</div><span class="task-tag tt-ux">UX</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build RevealWrapper</strong> — Reusable Framer Motion scroll reveal HOC with delay prop</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build Footer</strong> — Logo, copyright, scroll-to-top button</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Implement /api/projects GET</strong> — Supabase query with filters, category join, pagination</div><span class="task-tag tt-be">Backend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build /work page</strong> — Full grid, all categories, FilterBar connected to data</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build 5 category pages</strong> — Shared CategoryHero, filtered WorkGrid from API</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Mobile responsive pass</strong> — Test all breakpoints, fix grid, hide cursor on mobile</div><span class="task-tag tt-ux">UX</span></li>
+        </ul>
+        <div style="margin-top:16px;padding:12px 16px;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);border-radius:6px;font-size:12px;color:var(--text-mid)">
+          <strong style="color:var(--blue)">Exit Criteria:</strong> Homepage matches design. 3D scene running. Portfolio grid filterable. All sections scroll-animate. Mobile looks good.
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase phase-2">
+      <div class="phase-header">
+        <div class="phase-num">2</div>
+        <div class="phase-info">
+          <div class="name">Remaining Pages + Contact API</div>
+          <div class="timeline">Week 5–6 — 8–10 days</div>
+        </div>
+        <span class="phase-status status-todo">To Do</span>
+      </div>
+      <div class="phase-body">
+        <div style="font-size:12px;color:var(--text-dim);margin-bottom:16px">Goal: All public-facing pages built and functional. Contact form works end-to-end.</div>
+        <ul class="task-list">
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build project detail page</strong> — Hero image, title/meta, description, image gallery with lightbox, video embed, related projects, prev/next nav</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Implement lightbox gallery</strong> — Fullscreen image viewer with keyboard nav, touch swipe on mobile</div><span class="task-tag tt-ux">UX</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build About page</strong> — Full bio, skills, stats, awards list, client logos section, CV download</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Implement /api/about</strong> — Fetch from about_content table, cache at edge</div><span class="task-tag tt-be">Backend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build ContactForm with Zod validation</strong> — All fields, client validation, error states, loading state</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Implement /api/contact</strong> — Validate, save to messages table, send email via Resend, rate limiting middleware</div><span class="task-tag tt-be">Backend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build email template</strong> — React Email template for contact form notification to artist</div><span class="task-tag tt-be">Backend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Page transitions</strong> — Framer Motion AnimatePresence in root layout for cross-page slide animations</div><span class="task-tag tt-ux">UX</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>SEO metadata</strong> — generateMetadata() on all pages, OG image, structured JSON-LD for artist portfolio</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>generateStaticParams</strong> — Pre-render all project slugs and category pages at build time</div><span class="task-tag tt-fe">Frontend</span></li>
+        </ul>
+        <div style="margin-top:16px;padding:12px 16px;background:rgba(197,165,107,.08);border:1px solid rgba(197,165,107,.2);border-radius:6px;font-size:12px;color:var(--text-mid)">
+          <strong style="color:var(--gold)">Exit Criteria:</strong> All 11 pages render. Contact form sends email. Project detail pages load. SEO metadata in place.
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase phase-3">
+      <div class="phase-header">
+        <div class="phase-num">3</div>
+        <div class="phase-info">
+          <div class="name">Admin CMS Dashboard</div>
+          <div class="timeline">Week 7–8 — 8–10 days</div>
+        </div>
+        <span class="phase-status status-todo">To Do</span>
+      </div>
+      <div class="phase-body">
+        <div style="font-size:12px;color:var(--text-dim);margin-bottom:16px">Goal: Artist can log in and manage all content without touching code.</div>
+        <ul class="task-list">
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build login page</strong> — Email + password form, NextAuth credentials flow, redirect on success</div><span class="task-tag tt-be">Backend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build admin layout</strong> — Sidebar nav, active route highlighting, signout button, breadcrumbs</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build dashboard home</strong> — Stats cards (project count, unread messages), recent activity, quick action buttons</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build ImageUploader</strong> — Drag-drop zone, multi-file, preview thumbnails, progress indicator, Cloudinary integration</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Implement /api/upload</strong> — Receive file, upload to Cloudinary, return URL + metadata. Max 50MB, image + video.</div><span class="task-tag tt-be">Backend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build ProjectForm</strong> — Title, description, category select, featured/published toggles, images, video URL, year, tools tags</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Implement POST/PUT/DELETE /api/projects</strong> — Full CRUD with auth checks, slug auto-generation, cascade delete for images</div><span class="task-tag tt-be">Backend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build project list with drag-reorder</strong> — Sortable list using @dnd-kit, PATCH sort_order on drop</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build messages inbox</strong> — List all messages, read/unread badge, mark-read on click, delete, pagination</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Implement messages API</strong> — GET with read filter, PATCH read status, DELETE</div><span class="task-tag tt-be">Backend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Build about editor</strong> — Edit bio text, add/remove/reorder skills and stats, upload CV PDF</div><span class="task-tag tt-fe">Frontend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Implement PUT /api/about</strong> — Update about_content table, revalidate Next.js cache on write</div><span class="task-tag tt-be">Backend</span></li>
+        </ul>
+        <div style="margin-top:16px;padding:12px 16px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:6px;font-size:12px;color:var(--text-mid)">
+          <strong style="color:var(--green)">Exit Criteria:</strong> Artist can log in, add/edit/delete projects with images, read messages, update bio. All changes reflect on public site after ISR revalidation.
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="phase phase-4">
+      <div class="phase-header">
+        <div class="phase-num">4</div>
+        <div class="phase-info">
+          <div class="name">Polish, Tests & Launch</div>
+          <div class="timeline">Week 9–10 — 6–8 days</div>
+        </div>
+        <span class="phase-status status-todo">To Do</span>
+      </div>
+      <div class="phase-body">
+        <div style="font-size:12px;color:var(--text-dim);margin-bottom:16px">Goal: Production-quality, tested, deployed with real content.</div>
+        <ul class="task-list">
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Write unit tests (Vitest)</strong> — Contact form Zod schema, API response handlers, slug generation utility</div><span class="task-tag tt-devops">DevOps</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Write E2E tests (Playwright)</strong> — Contact form submit, admin login flow, project upload happy path</div><span class="task-tag tt-devops">DevOps</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Performance audit</strong> — Lighthouse score ≥90 on all pages. Optimize Three.js bundle (dynamic import). Compress images.</div><span class="task-tag tt-ux">UX</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Accessibility audit</strong> — WCAG 2.1 AA. All images have alt text. Keyboard nav works. Focus ring visible.</div><span class="task-tag tt-ux">UX</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Cross-browser test</strong> — Chrome, Firefox, Safari, Edge. Mobile: iOS Safari, Chrome Android.</div><span class="task-tag tt-ux">UX</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Security review</strong> — CSRF protection on all POST routes, rate limiting on contact, input sanitization, RLS verified on Supabase</div><span class="task-tag tt-be">Backend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Content upload</strong> — Artist uploads all real artwork, writes bio and descriptions, sets featured projects</div><span class="task-tag tt-ux">UX</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Custom domain + SSL</strong> — Connect domain to Vercel, enable HTTPS, configure www redirect</div><span class="task-tag tt-devops">DevOps</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Analytics setup</strong> — Vercel Analytics or Plausible. Track page views, top projects.</div><span class="task-tag tt-devops">DevOps</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>sitemap.xml + robots.txt</strong> — Auto-generated sitemap from all published projects and pages</div><span class="task-tag tt-be">Backend</span></li>
+          <li class="task-item"><div class="task-check"></div><div class="task-text"><strong>Launch 🚀</strong> — Final deploy, smoke test all pages, submit sitemap to Google Search Console</div><span class="task-tag tt-devops">DevOps</span></li>
+        </ul>
+        <div style="margin-top:16px;padding:12px 16px;background:rgba(251,146,60,.08);border:1px solid rgba(251,146,60,.2);border-radius:6px;font-size:12px;color:var(--text-mid)">
+          <strong style="color:var(--orange)">Exit Criteria:</strong> All tests pass. Lighthouse ≥90. Real content live. Domain connected. Google indexed.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 11 — RISKS
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="risks">
+    <div class="section-header">
+      <div class="section-num">11 — Risks</div>
+      <h2 class="section-title">Risks & Key Decisions</h2>
+    </div>
+    <table class="data-table">
+      <thead><tr><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Mitigation</th></tr></thead>
+      <tbody>
+        <tr><td>Three.js causes poor Lighthouse performance score</td><td class="risk-med">Medium</td><td class="risk-high">High</td><td>Dynamic import with ssr:false, defer canvas load until after LCP, offer prefers-reduced-motion fallback</td></tr>
+        <tr><td>Three.js crashes on low-end Android devices</td><td class="risk-med">Medium</td><td class="risk-med">Medium</td><td>Detect WebGL support on client, show gradient fallback if unavailable</td></tr>
+        <tr><td>Cloudinary upload size limits block video uploads</td><td class="risk-low">Low</td><td class="risk-med">Medium</td><td>Use Cloudinary's chunked upload API for files >10MB. Set 50MB cap in API.</td></tr>
+        <tr><td>Contact form spam despite rate limiting</td><td class="risk-med">Medium</td><td class="risk-low">Low</td><td>Add honeypot field, reCAPTCHA v3 as V2 enhancement, and email keyword filtering</td></tr>
+        <tr><td>Admin password leak → portfolio vandalized</td><td class="risk-low">Low</td><td class="risk-high">High</td><td>bcrypt hash password in DB (not env var), add 2FA support in V2, IP whitelist /admin if needed</td></tr>
+        <tr><td>Supabase free tier connection limit hit</td><td class="risk-low">Low</td><td class="risk-med">Medium</td><td>Use connection pooling via Supabase's pooler endpoint for serverless functions</td></tr>
+        <tr><td>ISR stale cache shows old content after CMS update</td><td class="risk-med">Medium</td><td class="risk-med">Medium</td><td>Call revalidatePath() on every CMS write. Add on-demand revalidation route.</td></tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:32px;font-family:var(--sans);font-size:16px;font-weight:600;color:var(--text);margin-bottom:16px">Key Decisions Requiring Confirmation</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Decision 1: CMS Complexity</div>
+        <div class="card-body"><strong style="color:var(--text)">Option A — Custom CMS (this plan):</strong> Built into the app, full control, no monthly cost.<br><br><strong style="color:var(--text)">Option B — Headless CMS (Sanity/Contentful):</strong> Better editing UX, richer content modeling, $0–$50/month.<br><br><span style="color:var(--gold)">Recommendation:</span> Option A for a solo artist portfolio. Add Sanity in V2 if editing friction is too high.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Decision 2: 3D Library</div>
+        <div class="card-body"><strong style="color:var(--text)">Option A — React Three Fiber (this plan):</strong> React-native, cleaner component model, full ecosystem.<br><br><strong style="color:var(--text)">Option B — Vanilla Three.js:</strong> Smaller bundle if R3F overhead matters, direct control.<br><br><span style="color:var(--gold)">Recommendation:</span> R3F — the Drei helpers (OrbitControls, Sparkles, etc.) save days of work.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 12 — DEPLOYMENT
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="deployment">
+    <div class="section-header">
+      <div class="section-num">12 — Deployment</div>
+      <h2 class="section-title">Infrastructure & Deploy Config</h2>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><div class="code-lang">next.config.ts</div><div class="code-dots"><div class="code-dot" style="background:#FF5F56"></div><div class="code-dot" style="background:#FFBD2E"></div><div class="code-dot" style="background:#27C93F"></div></div></div>
+      <div class="code-body"><pre><span class="c-blue">const</span> nextConfig = {
+  images: {
+    remotePatterns: [
+      { protocol: <span class="c-green">'https'</span>, hostname: <span class="c-green">'res.cloudinary.com'</span> },
+    ],
+    formats: [<span class="c-green">'image/avif'</span>, <span class="c-green">'image/webp'</span>],
+  },
+  experimental: {
+    optimizePackageImports: [<span class="c-green">'three'</span>, <span class="c-green">'@react-three/fiber'</span>],
+  },
+  <span class="c-dim">// ISR revalidation for project pages</span>
+  <span class="c-dim">// Set per-page in page.tsx with: export const revalidate = 3600</span>
+}</pre></div>
+    </div>
+
+    <div class="grid-3" style="margin-top:16px">
+      <div class="card">
+        <div class="card-title">🌐 Production</div>
+        <div class="card-body">Vercel Pro (or Hobby for low traffic). Edge Network CDN. Automatic HTTPS. GitHub integration for CI/CD.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🗄️ Database</div>
+        <div class="card-body">Supabase Free tier (500MB, 2GB bandwidth). Upgrade to Pro ($25/month) when traffic grows or storage is needed.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🖼 Media CDN</div>
+        <div class="card-body">Cloudinary Free (25 credits/month). Auto-optimize to WebP/AVIF. Global CDN delivery. No extra cost for transformations within quota.</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;background:rgba(74,222,128,.04);border-color:rgba(74,222,128,.2)">
+      <div class="card-title" style="color:var(--green)">📦 package.json — Key Dependencies</div>
+      <div class="card-body">
+        <code style="font-family:var(--mono);font-size:12px;color:var(--text-mid)">
+          next@14  ·  react@18  ·  typescript@5  ·  tailwindcss@3  ·  three@0.160  ·  @react-three/fiber@8  ·  @react-three/drei@9  ·  framer-motion@11  ·  gsap@3  ·  @supabase/supabase-js@2  ·  next-auth@5  ·  zod@3  ·  cloudinary@2  ·  resend@3  ·  @dnd-kit/core  ·  react-email  ·  @react-email/components
+        </code>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// Scroll progress bar
+const bar = document.getElementById('scroll-bar');
+window.addEventListener('scroll', () => {
+  const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  bar.style.width = pct + '%';
+});
+
+// Sidebar active link
+const links = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('section[id], div[id]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
+  links.forEach(l => {
+    const href = l.getAttribute('href')?.replace('#','');
+    l.classList.toggle('active', href === current);
+  });
+});
+</script>
+</body>
+</html>
