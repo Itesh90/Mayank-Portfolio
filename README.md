@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Elara Voss — Animation Portfolio
 
-## Getting Started
+Personal portfolio site for animator and motion designer Elara Voss. Showcases selected work across character animation, motion design, and interactive 3D, with an admin surface for managing projects and content.
 
-First, run the development server:
+## Tech stack
+
+- **Framework:** Next.js 14 (App Router) + TypeScript
+- **Styling:** Tailwind CSS
+- **3D / animation:** Three.js, @react-three/fiber, @react-three/drei, GSAP, Framer Motion
+- **Auth:** NextAuth.js v5 (beta)
+- **Data:** Supabase (Postgres) via `@supabase/supabase-js`
+- **Media:** Cloudinary (`next-cloudinary`)
+- **Forms / validation:** react-hook-form + Zod
+- **Email:** Resend
+
+## Setup
+
+Requires Node.js 20+ and npm.
 
 ```bash
+# 1. Install dependencies
+npm install
+
+# 2. Configure environment variables
+cp .env.example .env.local
+# then fill in real values for Supabase, NextAuth, Cloudinary, Resend, etc.
+
+# 3. Run the dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app runs at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Other scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run build` — production build
+- `npm run start` — serve the production build
+- `npm run lint` — run Next.js / ESLint checks
 
-## Learn More
+## Folder structure
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+.
+├── src/
+│   ├── app/              # Next.js App Router routes
+│   │   ├── admin/        # Admin dashboard routes
+│   │   ├── api/          # Route handlers (REST endpoints)
+│   │   ├── site/         # Public marketing/site routes
+│   │   ├── fonts/        # Local font files (Geist)
+│   │   ├── layout.tsx    # Root layout + metadata
+│   │   └── page.tsx      # Home page
+│   ├── components/       # Reusable React components
+│   ├── constants/        # Static config / lookup values
+│   ├── hooks/            # Custom React hooks
+│   ├── lib/              # Clients, utilities, server helpers
+│   ├── styles/           # Global styles / design tokens
+│   └── types/            # Shared TypeScript types
+├── tests/                # Test suites
+├── docs/                 # Project documentation
+├── public/               # Static assets served as-is
+├── tailwind.config.ts
+├── next.config.mjs
+└── tsconfig.json
+```
