@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { navLinks } from '@/constants/navigation'
-import Button from '@/components/ui/Button'
 
 export function Header() {
   const [isCompact, setIsCompact] = useState(false)
@@ -18,17 +17,17 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 flex items-center justify-between
-        backdrop-blur-sm border-b border-border transition-all duration-base
-        ${isCompact ? 'py-4' : 'py-7'} px-14 bg-cream/88`}
+      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between
+        backdrop-blur-md border-b border-border transition-all duration-base
+        ${isCompact ? 'py-4' : 'py-7'} px-14 bg-cream/90`}
     >
-      <Link href="/" className="font-serif text-xl font-light text-charcoal">
+      <Link href="/" className="font-serif text-xl font-light tracking-widest uppercase text-charcoal">
         Elara <span className="text-gold">Voss</span>
       </Link>
 
       <nav aria-label="Main navigation" className="flex gap-10 items-center">
         {navLinks.map((link) => (
-          <Link
+          <a
             key={link.href}
             href={link.href}
             className="text-xs font-light tracking-widest uppercase text-mid hover:text-charcoal
@@ -37,14 +36,18 @@ export function Header() {
             {link.label}
             <span
               aria-hidden="true"
-              className="absolute left-0 bottom-0 w-0 h-px bg-gold transition-all duration-base
+              className="absolute left-0 -bottom-1 w-0 h-px bg-gold transition-all duration-base
                 group-hover:w-full"
             />
-          </Link>
+          </a>
         ))}
-        <Link href="/contact">
-          <Button variant="nav-cta">Contact</Button>
-        </Link>
+        <a
+          href="#contact"
+          className="text-xs font-light tracking-widest uppercase text-gold border border-gold
+            px-5 py-2.5 rounded-sm hover:bg-gold hover:text-cream transition-colors"
+        >
+          Contact
+        </a>
       </nav>
     </header>
   )

@@ -1,20 +1,31 @@
-import { supabase } from '@/lib/supabase'
 import { HeroSection } from '@/components/home/HeroSection'
+import { MarqueeStrip } from '@/components/home/MarqueeStrip'
 import { WorkGrid } from '@/components/portfolio/WorkGrid'
 import { CtaSection } from '@/components/home/CtaSection'
+import { demoProjects } from '@/constants/demoProjects'
+import { supabase } from '@/lib/supabase'
 import { Project } from '@/types/project'
 
 export default async function HomePage() {
-  const { data: projects } = await supabase
-    .from('projects')
-    .select('*')
-    .eq('featured', true)
-    .limit(6)
+  let projects: Project[] = []
+  try {
+    const { data } = await supabase
+      .from('projects')
+      .select('*')
+      .eq('featured', true)
+      .limit(10)
+    projects = (data as Project[] | null) ?? []
+  } catch {
+    // Supabase not configured locally — fall back to demo content
+  }
+
+  const display = projects.length > 0 ? projects : demoProjects
 
   return (
     <>
       <HeroSection />
-      <WorkGrid projects={(projects as Project[]) ?? []} featured showFilters={false} />
+      <MarqueeStrip />
+      <WorkGrid projects={display} />
       <CtaSection />
     </>
   )

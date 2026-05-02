@@ -2,47 +2,51 @@ import { socialLinks } from '@/constants/navigation'
 
 export function CtaSection() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center bg-cream px-container overflow-hidden">
-      {/* Small circle icon top-left */}
-      <div className="absolute top-16 left-14 w-8 h-8 rounded-full border border-gold/40 flex items-center justify-center">
-        <div className="w-1.5 h-1.5 rounded-full bg-gold/60" />
-      </div>
+    <section
+      id="contact"
+      className="relative py-[140px] flex flex-col items-center justify-center bg-cream px-14 overflow-hidden text-center z-20"
+    >
+      {/* Section label */}
+      <p className="text-[10px] font-light tracking-[0.35em] uppercase text-gold mb-6">
+        Get in Touch
+      </p>
 
       {/* Main headline */}
-      <div className="text-center z-10">
-        <h2 className="font-serif text-6xl md:text-7xl lg:text-8xl font-light text-charcoal leading-tight mb-12">
-          Let&apos;s create<br />
-          <span className="italic text-gold">something</span><br />
-          remarkable.
-        </h2>
+      <h2
+        className="font-serif font-light leading-none text-charcoal mb-12"
+        style={{ fontSize: 'clamp(60px, 7vw, 100px)' }}
+      >
+        Let&apos;s create<br />
+        <span className="italic text-gold">something</span><br />
+        remarkable.
+      </h2>
 
-        {/* Email */}
-        <a
-          href="mailto:hello@elaravoss.com"
-          className="inline-flex items-center gap-3 text-base text-mid hover:text-charcoal transition-colors mb-12"
-        >
-          <svg width="20" height="16" viewBox="0 0 20 16" fill="none" className="text-mid">
-            <rect x="0.5" y="0.5" width="19" height="15" rx="1.5" stroke="currentColor"/>
-            <path d="M1 1L10 9L19 1" stroke="currentColor"/>
-          </svg>
-          hello@elaravoss.com
-        </a>
+      {/* Email */}
+      <a
+        href="mailto:hello@elaravoss.com"
+        className="inline-flex items-center gap-3 font-serif text-2xl md:text-[26px] font-light text-mid hover:text-gold transition-colors mb-16"
+      >
+        <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
+          <rect x="1" y="1" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.2" />
+          <path d="M1 4 L10 9 L19 4" stroke="currentColor" strokeWidth="1.2" />
+        </svg>
+        hello@elaravoss.com
+      </a>
 
-        {/* Social links */}
-        <div className="flex gap-10 justify-center">
-          {socialLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs tracking-widest uppercase text-dust hover:text-charcoal transition-colors"
-            >
-              {link.label}
-              <span className="sr-only">(opens in new tab)</span>
-            </a>
-          ))}
-        </div>
+      {/* Social links */}
+      <div className="flex gap-8 justify-center">
+        {socialLinks.map((link) => (
+          <a
+            key={link.label}
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-light tracking-[0.25em] uppercase text-dust hover:text-charcoal transition-colors"
+          >
+            {link.label}
+            <span className="sr-only">(opens in new tab)</span>
+          </a>
+        ))}
       </div>
     </section>
   )
