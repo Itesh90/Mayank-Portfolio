@@ -34,8 +34,7 @@ export default function CustomCursor() {
       if (
         target.closest('a') ||
         target.closest('button') ||
-        target.closest('.work-card') ||
-        target.closest('.process-step')
+        target.closest('[data-cursor-hover]')
       ) {
         hovered.current = true;
       }
@@ -46,8 +45,7 @@ export default function CustomCursor() {
       if (
         target.closest('a') ||
         target.closest('button') ||
-        target.closest('.work-card') ||
-        target.closest('.process-step')
+        target.closest('[data-cursor-hover]')
       ) {
         hovered.current = false;
       }

@@ -11,7 +11,7 @@ export default function SiteLayout({
     <div className="relative">
       <CustomCursor />
       <Header />
-      <main className="pt-20">{children}</main>
+      <main>{children}</main>
       <Footer />
     </div>
   )

@@ -24,6 +24,7 @@ export function WorkCard({ project }: WorkCardProps) {
 
   return (
     <motion.div
+      data-cursor-hover
       whileHover={{ y: -4 }}
       transition={{ duration: 0.3 }}
       className="group relative overflow-hidden rounded-md bg-ivory cursor-pointer h-full"

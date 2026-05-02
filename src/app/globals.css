@@ -67,6 +67,18 @@ body {
   color: var(--color-charcoal);
   line-height: 1.6;
   cursor: none;
+  overflow-x: hidden;
+}
+
+/* Noise grain overlay — sits above 3D background, below content */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.6;
 }
 
 body, button, input, textarea, select {
@@ -82,9 +94,33 @@ body, button, input, textarea, select {
   .animate-marquee {
     animation: marqueeScroll 30s linear infinite;
   }
+
+  .animate-grow-line {
+    animation: growLine 2s 1.5s ease-out infinite;
+  }
+
+  .animate-rotate-slow {
+    animation: rotateBadge 20s linear infinite;
+  }
 }
 
 @keyframes marqueeScroll {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
+}
+
+@keyframes growLine {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  50%  { transform: scaleY(1); transform-origin: top; }
+  51%  { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+@keyframes rotateBadge {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
 }

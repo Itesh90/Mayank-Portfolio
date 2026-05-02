@@ -14,18 +14,19 @@ interface WorkGridProps {
   showFilters?: boolean
 }
 
-// Exact masonry pattern from portfolio.html — 10 cards
-const cardSpans: { col: string; row: string }[] = [
-  { col: 'col-start-1 col-end-6',  row: 'row-start-1 row-end-5' },   // 1
-  { col: 'col-start-6 col-end-9',  row: 'row-start-1 row-end-4' },   // 2
-  { col: 'col-start-9 col-end-13', row: 'row-start-1 row-end-6' },   // 3
-  { col: 'col-start-1 col-end-4',  row: 'row-start-5 row-end-9' },   // 4
-  { col: 'col-start-4 col-end-9',  row: 'row-start-5 row-end-9' },   // 5
-  { col: 'col-start-6 col-end-9',  row: 'row-start-4 row-end-6' },   // 6
-  { col: 'col-start-9 col-end-13', row: 'row-start-6 row-end-10' },  // 7
-  { col: 'col-start-1 col-end-6',  row: 'row-start-9 row-end-13' },  // 8
-  { col: 'col-start-6 col-end-10', row: 'row-start-9 row-end-13' },  // 9
-  { col: 'col-start-10 col-end-13',row: 'row-start-9 row-end-13' },  // 10
+// Exact masonry pattern from portfolio.html — 10 cards (desktop only).
+// Mobile falls back to a simple 2-col 160px grid.
+const cardSpans: string[] = [
+  'lg:col-start-1 lg:col-end-6  lg:row-start-1 lg:row-end-5',   // 1
+  'lg:col-start-6 lg:col-end-9  lg:row-start-1 lg:row-end-4',   // 2
+  'lg:col-start-9 lg:col-end-13 lg:row-start-1 lg:row-end-6',   // 3
+  'lg:col-start-1 lg:col-end-4  lg:row-start-5 lg:row-end-9',   // 4
+  'lg:col-start-4 lg:col-end-9  lg:row-start-5 lg:row-end-9',   // 5
+  'lg:col-start-6 lg:col-end-9  lg:row-start-4 lg:row-end-6',   // 6
+  'lg:col-start-9 lg:col-end-13 lg:row-start-6 lg:row-end-10',  // 7
+  'lg:col-start-1 lg:col-end-6  lg:row-start-9 lg:row-end-13',  // 8
+  'lg:col-start-6 lg:col-end-10 lg:row-start-9 lg:row-end-13',  // 9
+  'lg:col-start-10 lg:col-end-13 lg:row-start-9 lg:row-end-13', // 10
 ]
 
 export function WorkGrid({ projects, showFilters = true }: WorkGridProps) {
@@ -64,23 +65,22 @@ export function WorkGrid({ projects, showFilters = true }: WorkGridProps) {
       </div>
 
       <AnimatePresence>
-        <div className="grid grid-cols-12 auto-rows-[80px] gap-5">
-          {visible.slice(0, cardSpans.length).map(({ project, matchesFilter }, idx) => {
-            const span = cardSpans[idx]
-            return (
-              <motion.div
-                key={project.id}
-                animate={{
-                  opacity: matchesFilter ? 1 : 0.25,
-                  scale: matchesFilter ? 1 : 0.97,
-                }}
-                transition={{ duration: 0.4 }}
-                className={`${span.col} ${span.row}`}
-              >
-                <WorkCard project={project} />
-              </motion.div>
-            )
-          })}
+        <div
+          className="grid grid-cols-2 auto-rows-[160px] lg:grid-cols-12 lg:auto-rows-[80px] gap-5"
+        >
+          {visible.slice(0, cardSpans.length).map(({ project, matchesFilter }, idx) => (
+            <motion.div
+              key={project.id}
+              animate={{
+                opacity: matchesFilter ? 1 : 0.25,
+                scale: matchesFilter ? 1 : 0.97,
+              }}
+              transition={{ duration: 0.4 }}
+              className={cardSpans[idx]}
+            >
+              <WorkCard project={project} />
+            </motion.div>
+          ))}
         </div>
       </AnimatePresence>
     </section>

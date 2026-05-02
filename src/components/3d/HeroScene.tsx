@@ -13,6 +13,7 @@ import {
 import { FloatingGeometry } from './FloatingGeometry'
 import { SceneLighting } from './SceneLighting'
 import { ParticleField } from './ParticleField'
+import { CameraRig } from './CameraRig'
 
 export function HeroScene() {
   // Memoize materials and geometries — they never change so we create them once
@@ -80,6 +81,7 @@ export function HeroScene() {
       }}
     >
       <Suspense fallback={null}>
+        <CameraRig />
         <SceneLighting />
         <FloatingGeometry
           geometry={geoIco}
