@@ -1,28 +1,23 @@
 // src/lib/supabase.ts
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
 
 /**
  * Browser/anon Supabase client.
  *
  * Uses the public anon key and is safe to expose to the browser. All access is
- * gated by Row Level Security policies defined in the migrations. Use this
- * client for any read/write that should respect RLS (i.e. anything triggered
- * by an end-user request).
+ * gated by Row Level Security policies defined in the migrations.
  */
-export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-)
+export const supabase: SupabaseClient = createClient(supabaseUrl, supabaseAnonKey)
 
 /**
  * Server-only admin Supabase client.
  *
  * Uses the service role key, which BYPASSES Row Level Security. This client
  * MUST never be imported into client components or otherwise shipped to the
- * browser. Use only in server-side code (route handlers, server actions, edge
- * functions) for trusted admin operations such as CMS writes.
+ * browser.
  */
-export const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-)
+export const supabaseAdmin: SupabaseClient = createClient(supabaseUrl, supabaseServiceKey)
