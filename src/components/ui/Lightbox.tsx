@@ -47,7 +47,7 @@ export function Lightbox({ item, onClose }: LightboxProps) {
         onClick={(e) => e.stopPropagation()}
       >
         {item.type === 'image' ? (
-          // eslint-disable-next-line @next/next-eslint/no-img-element
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={item.src}
             alt={item.alt}
