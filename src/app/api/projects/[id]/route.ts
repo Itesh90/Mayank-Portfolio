@@ -11,7 +11,7 @@
  */
 
 import type { NextRequest } from 'next/server'
-import { supabase, supabaseAdmin } from '@/lib/supabase'
+import { supabase, supabaseAdmin, isSupabaseConfigured } from '@/lib/supabase'
 import { mapProject, type DbProject } from '@/lib/mappers'
 import { apiError, apiSuccess, zodErrorResponse } from '@/lib/api-utils'
 import { projectCreateSchema } from '@/lib/validations'
@@ -30,6 +30,7 @@ interface RouteContext {
 }
 
 export async function GET(_req: NextRequest, { params }: RouteContext) {
+  if (!isSupabaseConfigured) return apiError('Supabase not configured', 503)
   try {
     // Allow lookup by either UUID or slug so detail pages can use
     // /api/projects/my-project-slug.
@@ -55,6 +56,7 @@ export async function GET(_req: NextRequest, { params }: RouteContext) {
 }
 
 export async function PUT(req: NextRequest, { params }: RouteContext) {
+  if (!isSupabaseConfigured) return apiError('Supabase not configured', 503)
   try {
     if (!UUID_REGEX.test(params.id)) {
       return apiError('Updates require a UUID id', 400)
@@ -108,6 +110,7 @@ export async function PUT(req: NextRequest, { params }: RouteContext) {
 }
 
 export async function DELETE(_req: NextRequest, { params }: RouteContext) {
+  if (!isSupabaseConfigured) return apiError('Supabase not configured', 503)
   try {
     if (!UUID_REGEX.test(params.id)) {
       return apiError('Deletes require a UUID id', 400)

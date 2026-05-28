@@ -11,7 +11,7 @@
  */
 
 import type { NextRequest } from 'next/server'
-import { supabase, supabaseAdmin } from '@/lib/supabase'
+import { supabase, supabaseAdmin, isSupabaseConfigured } from '@/lib/supabase'
 import { mapProject, type DbProject } from '@/lib/mappers'
 import { apiError, apiSuccess, zodErrorResponse } from '@/lib/api-utils'
 import { projectCreateSchema } from '@/lib/validations'
@@ -36,6 +36,7 @@ function parseIntParam(raw: string | null, fallback: number): number {
 }
 
 export async function GET(req: NextRequest) {
+  if (!isSupabaseConfigured) return apiError('Supabase not configured', 503)
   try {
     const { searchParams } = new URL(req.url)
     const category = searchParams.get('category')
@@ -82,6 +83,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  if (!isSupabaseConfigured) return apiError('Supabase not configured', 503)
   try {
     const body = await req.json().catch(() => null)
     if (body === null) return apiError('Invalid JSON body', 400)
