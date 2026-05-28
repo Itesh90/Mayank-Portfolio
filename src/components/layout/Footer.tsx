@@ -1,29 +1,13 @@
-import { socialLinks } from '@/constants/navigation'
-import Link from 'next/link'
-
 export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-charcoal text-cream py-8 px-14">
-      <div className="flex justify-between items-center">
-        <span className="font-serif text-sm font-light">Elara Voss</span>
-        <div className="flex gap-8">
-          {socialLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-light tracking-widest uppercase text-dust
-                hover:text-gold transition-colors"
-            >
-              {link.label}
-              <span className="sr-only">(opens in new tab)</span>
-            </a>
-          ))}
-        </div>
-        <span className="text-xs font-light tracking-widest text-dust">
+    <footer className="relative z-20 bg-charcoal py-6 sm:py-8 px-5 sm:px-7 md:px-14">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-2 sm:gap-3 text-center">
+        <span className="font-serif text-base sm:text-lg font-light tracking-[0.1em] text-cream/50">
+          DinoSayz
+        </span>
+        <span className="text-[10px] sm:text-[11px] font-light tracking-[0.15em] text-cream/30">
           © {currentYear} — All rights reserved
         </span>
       </div>

@@ -71,7 +71,7 @@ const steps = [
 
 export function ProcessSection() {
   return (
-    <section id="process" className="relative py-section px-14 bg-ivory z-20">
+    <section id="process" className="relative py-20 md:py-section px-7 md:px-14 bg-ivory z-20">
       <div className="text-center mb-20">
         <RevealWrapper>
           <p className="text-[10px] font-light tracking-[0.35em] uppercase text-gold mb-5">

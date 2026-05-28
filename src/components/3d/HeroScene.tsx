@@ -9,6 +9,8 @@ import {
   TorusKnotGeometry,
   SphereGeometry,
   MeshPhongMaterial,
+  MeshBasicMaterial,
+  DoubleSide,
 } from 'three'
 import { FloatingGeometry } from './FloatingGeometry'
 import { SceneLighting } from './SceneLighting'
@@ -25,6 +27,17 @@ export function HeroScene() {
         shininess: 80,
         transparent: true,
         opacity: 0.18,
+        side: DoubleSide,
+      }),
+    []
+  )
+  const matGoldWire = useMemo(
+    () =>
+      new MeshBasicMaterial({
+        color: 0xc5a56b,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.1,
       }),
     []
   )
@@ -35,6 +48,7 @@ export function HeroScene() {
         shininess: 60,
         transparent: true,
         opacity: 0.1,
+        side: DoubleSide,
       }),
     []
   )
@@ -45,6 +59,7 @@ export function HeroScene() {
         shininess: 40,
         transparent: true,
         opacity: 0.1,
+        side: DoubleSide,
       }),
     []
   )
@@ -55,6 +70,7 @@ export function HeroScene() {
         shininess: 100,
         transparent: true,
         opacity: 0.14,
+        side: DoubleSide,
       }),
     []
   )
@@ -90,11 +106,23 @@ export function HeroScene() {
           rotationSpeed={{ x: 0.08, y: 0.12, z: 0.04 }}
         />
         <FloatingGeometry
+          geometry={geoIco}
+          material={matGoldWire}
+          position={[6, -2, -8]}
+          rotationSpeed={{ x: 0.08, y: 0.12, z: 0.04 }}
+        />
+        <FloatingGeometry
           geometry={geoTorus}
           material={matDark}
           position={[-8, 3, -6]}
           rotation={[Math.PI / 5, 0.2, 0]}
           rotationSpeed={{ x: 0.1, y: 0.15, z: 0.05 }}
+        />
+        <FloatingGeometry
+          geometry={geoOcta}
+          material={matGoldWire}
+          position={[9, 5, -5]}
+          rotationSpeed={{ x: 0.2, y: 0.18, z: 0.1 }}
         />
         <FloatingGeometry
           geometry={geoOcta}

@@ -2,7 +2,6 @@ import { HeroSection } from '@/components/home/HeroSection'
 import { MarqueeStrip } from '@/components/home/MarqueeStrip'
 import { WorkGrid } from '@/components/portfolio/WorkGrid'
 import { AboutSection } from '@/components/about/AboutSection'
-import { ProcessSection } from '@/components/process/ProcessSection'
 import { CtaSection } from '@/components/home/CtaSection'
 import { demoProjects } from '@/constants/demoProjects'
 import { supabase } from '@/lib/supabase'
@@ -29,7 +28,6 @@ export default async function HomePage() {
       <MarqueeStrip />
       <WorkGrid projects={display} />
       <AboutSection />
-      <ProcessSection />
       <CtaSection />
     </>
   )

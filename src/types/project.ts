@@ -6,10 +6,11 @@
  */
 export type Category =
   | 'character'
-  | 'props'
-  | 'comics'
-  | 'figures'
-  | 'sketchbook'
+  | 'thumbnail'
+  | 'artwork'
+  | 'background'
+  | 'client'
+  | 'creations'
 
 /**
  * A single image asset attached to a Project.

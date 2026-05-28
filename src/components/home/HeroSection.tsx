@@ -1,6 +1,5 @@
 'use client'
 
-import { HeroScene } from '@/components/3d/HeroScene'
 import { HeroContent } from './HeroContent'
 import { HeroBadge } from './HeroBadge'
 
@@ -8,11 +7,9 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center px-14 z-10 overflow-hidden"
+      className="relative min-h-screen flex items-center px-5 sm:px-7 md:px-14 z-10 overflow-hidden"
     >
-      <HeroScene />
-
-      <div className="relative z-20 w-full">
+      <div className="relative z-20 w-full pb-28 md:pb-32">
         <HeroContent />
       </div>
 

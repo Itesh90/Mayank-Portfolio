@@ -1,11 +1,13 @@
 'use client'
 
-import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import { Project, Category } from '@/types/project'
+import { useMemo, useState } from 'react'
+import { motion } from 'framer-motion'
+import { Category } from '@/types/project'
 import { DemoProject } from '@/constants/demoProjects'
+import { Project } from '@/types/project'
 import { WorkCard } from './WorkCard'
 import { FilterBar } from './FilterBar'
+import { Lightbox, LightboxItem } from '@/components/ui/Lightbox'
 import RevealWrapper from '@/components/ui/RevealWrapper'
 import SectionLabel from '@/components/ui/SectionLabel'
 
@@ -14,32 +16,18 @@ interface WorkGridProps {
   showFilters?: boolean
 }
 
-// Exact masonry pattern from portfolio.html — 10 cards (desktop only).
-// Mobile falls back to a simple 2-col 160px grid.
-const cardSpans: string[] = [
-  'lg:col-start-1 lg:col-end-6  lg:row-start-1 lg:row-end-5',   // 1
-  'lg:col-start-6 lg:col-end-9  lg:row-start-1 lg:row-end-4',   // 2
-  'lg:col-start-9 lg:col-end-13 lg:row-start-1 lg:row-end-6',   // 3
-  'lg:col-start-1 lg:col-end-4  lg:row-start-5 lg:row-end-9',   // 4
-  'lg:col-start-4 lg:col-end-9  lg:row-start-5 lg:row-end-9',   // 5
-  'lg:col-start-6 lg:col-end-9  lg:row-start-4 lg:row-end-6',   // 6
-  'lg:col-start-9 lg:col-end-13 lg:row-start-6 lg:row-end-10',  // 7
-  'lg:col-start-1 lg:col-end-6  lg:row-start-9 lg:row-end-13',  // 8
-  'lg:col-start-6 lg:col-end-10 lg:row-start-9 lg:row-end-13',  // 9
-  'lg:col-start-10 lg:col-end-13 lg:row-start-9 lg:row-end-13', // 10
-]
-
 export function WorkGrid({ projects, showFilters = true }: WorkGridProps) {
   const [activeFilter, setActiveFilter] = useState<Category | 'all'>('all')
+  const [lightboxItem, setLightboxItem] = useState<LightboxItem | null>(null)
 
-  const visible = projects.map((p) => ({
-    project: p,
-    matchesFilter: activeFilter === 'all' || p.category === activeFilter,
-  }))
+  const visible = useMemo(
+    () => projects.filter((p) => activeFilter === 'all' || p.category === activeFilter),
+    [projects, activeFilter]
+  )
 
   return (
-    <section id="work" className="py-section px-14 relative z-20 bg-cream">
-      <div className="mb-16 flex justify-between items-end">
+    <section id="work" className="py-16 md:py-section px-5 sm:px-7 md:px-14 relative z-20 bg-cream">
+      <div className="mb-10 sm:mb-16 flex flex-col lg:flex-row justify-between lg:items-end gap-6 sm:gap-8">
         <div>
           <RevealWrapper>
             <SectionLabel>Selected Work</SectionLabel>
@@ -47,7 +35,7 @@ export function WorkGrid({ projects, showFilters = true }: WorkGridProps) {
           <RevealWrapper delay={0.1}>
             <h2
               className="font-serif font-light leading-[1.05] text-charcoal"
-              style={{ fontSize: 'clamp(44px, 5vw, 72px)' }}
+              style={{ fontSize: 'clamp(34px, 7vw, 72px)' }}
             >
               Recent <span className="italic text-gold">Projects</span>
             </h2>
@@ -56,33 +44,26 @@ export function WorkGrid({ projects, showFilters = true }: WorkGridProps) {
 
         {showFilters && (
           <RevealWrapper delay={0.2}>
-            <FilterBar
-              activeFilter={activeFilter}
-              onFilterChange={setActiveFilter}
-            />
+            <FilterBar activeFilter={activeFilter} onFilterChange={setActiveFilter} />
           </RevealWrapper>
         )}
       </div>
 
-      <AnimatePresence>
-        <div
-          className="grid grid-cols-2 auto-rows-[160px] lg:grid-cols-12 lg:auto-rows-[80px] gap-5"
-        >
-          {visible.slice(0, cardSpans.length).map(({ project, matchesFilter }, idx) => (
-            <motion.div
-              key={project.id}
-              animate={{
-                opacity: matchesFilter ? 1 : 0.25,
-                scale: matchesFilter ? 1 : 0.97,
-              }}
-              transition={{ duration: 0.4 }}
-              className={cardSpans[idx]}
-            >
-              <WorkCard project={project} />
-            </motion.div>
-          ))}
-        </div>
-      </AnimatePresence>
+      <motion.div
+        layout
+        transition={{ duration: 0.3 }}
+        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 auto-rows-[160px] sm:auto-rows-[200px] md:auto-rows-[220px]"
+      >
+        {visible.map((project) => (
+          <WorkCard
+            key={project.id}
+            project={project}
+            onOpen={setLightboxItem}
+          />
+        ))}
+      </motion.div>
+
+      <Lightbox item={lightboxItem} onClose={() => setLightboxItem(null)} />
     </section>
   )
 }

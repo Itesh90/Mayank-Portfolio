@@ -9,9 +9,10 @@ export default function SiteLayout({
 }) {
   return (
     <div className="relative">
+      <a href="#main-content" className="skip-link">Skip to content</a>
       <CustomCursor />
       <Header />
-      <main>{children}</main>
+      <main id="main-content">{children}</main>
       <Footer />
     </div>
   )

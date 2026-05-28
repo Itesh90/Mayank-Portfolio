@@ -12,7 +12,8 @@ export default function SectionLabel({ children, className = '' }: SectionLabelP
       style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '12px',
+        gap: '16px',
+        marginBottom: '20px',
       }}
     >
       {/* Gold line */}
@@ -31,10 +32,10 @@ export default function SectionLabel({ children, className = '' }: SectionLabelP
         style={{
           fontFamily: 'var(--font-sans)',
           fontSize: 'var(--text-xs)',
-          letterSpacing: '0.15em',
+          letterSpacing: '0.35em',
           textTransform: 'uppercase',
           color: 'var(--color-gold)',
-          fontWeight: 500,
+          fontWeight: 300,
           lineHeight: 1,
         }}
       >

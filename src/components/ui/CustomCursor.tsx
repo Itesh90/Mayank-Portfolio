@@ -17,7 +17,8 @@ export default function CustomCursor() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+    setMounted(hasFinePointer);
   }, []);
 
   useEffect(() => {
@@ -67,6 +68,9 @@ export default function CustomCursor() {
         ringRef.current.style.transform = `translate(${ringPos.current.x - currentRingSize / 2}px, ${ringPos.current.y - currentRingSize / 2}px)`;
         ringRef.current.style.width = `${currentRingSize}px`;
         ringRef.current.style.height = `${currentRingSize}px`;
+        ringRef.current.style.borderColor = hovered.current
+          ? 'var(--color-charcoal)'
+          : 'var(--color-gold)';
       }
 
       rafRef.current = requestAnimationFrame(tick);
@@ -123,7 +127,7 @@ export default function CustomCursor() {
           pointerEvents: 'none',
           zIndex: 9998,
           willChange: 'transform, width, height',
-          transition: `width var(--duration-base) var(--ease-smooth), height var(--duration-base) var(--ease-smooth)`,
+          transition: `width var(--duration-base) var(--ease-smooth), height var(--duration-base) var(--ease-smooth), border-color var(--duration-base) var(--ease-smooth)`,
         }}
       />
     </>

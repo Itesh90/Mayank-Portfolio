@@ -5,18 +5,18 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        cream: 'var(--color-cream)',
-        ivory: 'var(--color-ivory)',
-        charcoal: 'var(--color-charcoal)',
-        warm: 'var(--color-warm)',
-        mid: 'var(--color-mid)',
-        dust: 'var(--color-dust)',
+        cream: 'rgb(var(--color-cream-rgb) / <alpha-value>)',
+        ivory: 'rgb(var(--color-ivory-rgb) / <alpha-value>)',
+        charcoal: 'rgb(var(--color-charcoal-rgb) / <alpha-value>)',
+        warm: 'rgb(var(--color-warm-rgb) / <alpha-value>)',
+        mid: 'rgb(var(--color-mid-rgb) / <alpha-value>)',
+        dust: 'rgb(var(--color-dust-rgb) / <alpha-value>)',
         gold: {
-          DEFAULT: 'var(--color-gold)',
-          light: 'var(--color-gold-light)',
+          DEFAULT: 'rgb(var(--color-gold-rgb) / <alpha-value>)',
+          light: 'rgb(var(--color-gold-light-rgb) / <alpha-value>)',
         },
-        blush: 'var(--color-blush)',
-        sage: 'var(--color-sage)',
+        blush: 'rgb(var(--color-blush-rgb) / <alpha-value>)',
+        sage: 'rgb(var(--color-sage-rgb) / <alpha-value>)',
       },
       fontFamily: {
         serif: 'var(--font-serif)',

@@ -5,16 +5,27 @@
 :root {
   /* Color Tokens */
   --color-cream: #F9F6F1;
+  --color-cream-rgb: 249 246 241;
   --color-ivory: #EDEAE3;
+  --color-ivory-rgb: 237 234 227;
   --color-white: #FFFFFF;
+  --color-white-rgb: 255 255 255;
   --color-charcoal: #1C1917;
+  --color-charcoal-rgb: 28 25 23;
   --color-warm: #4A3F35;
+  --color-warm-rgb: 74 63 53;
   --color-mid: #8C7B6E;
+  --color-mid-rgb: 140 123 110;
   --color-dust: #C9BFB2;
+  --color-dust-rgb: 201 191 178;
   --color-gold: #B8965A;
+  --color-gold-rgb: 184 150 90;
   --color-gold-light: #D4B47A;
+  --color-gold-light-rgb: 212 180 122;
   --color-blush: #E2C9B5;
+  --color-blush-rgb: 226 201 181;
   --color-sage: #7B9E87;
+  --color-sage-rgb: 123 158 135;
   --color-border: rgba(184, 150, 90, 0.15);
   --color-border-strong: rgba(184, 150, 90, 0.35);
 
@@ -70,7 +81,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Noise grain overlay — sits above 3D background, below content */
+/* Noise grain overlay — promoted to its own GPU layer so it never repaints on scroll */
 body::after {
   content: '';
   position: fixed;
@@ -79,6 +90,13 @@ body::after {
   pointer-events: none;
   z-index: 1;
   opacity: 0.6;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Disable noise grain on mobile — it's barely visible there and forces fullscreen repaints */
+@media (max-width: 767px) {
+  body::after { display: none; }
 }
 
 body, button, input, textarea, select {
@@ -105,8 +123,8 @@ body, button, input, textarea, select {
 }
 
 @keyframes marqueeScroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from { transform: translateX(0) translateZ(0); }
+  to   { transform: translateX(-25%) translateZ(0); }
 }
 
 @keyframes growLine {
@@ -124,3 +142,62 @@ body, button, input, textarea, select {
 @keyframes fadeIn {
   to { opacity: 1; }
 }
+
+.hero-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: fadeUp 0.8s var(--ease-smooth) forwards;
+}
+
+.hero-reveal-1 { animation-delay: 0.3s; }
+.hero-reveal-2 { animation-delay: 0.4s; transform: translateY(30px); }
+.hero-reveal-3 { animation-delay: 0.5s; transform: translateY(30px); }
+.hero-reveal-4 { animation-delay: 0.7s; }
+.hero-reveal-5 { animation-delay: 0.9s; }
+
+.hero-badge-reveal {
+  opacity: 0;
+  animation: fadeIn 1.2s 1.1s forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (pointer: coarse), (max-width: 767px) {
+  body {
+    cursor: auto;
+  }
+}
+
+/* Visible focus ring for keyboard users — overrides the global * { outline:0 } reset */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Skip-link helper (visually hidden until focused) */
+.skip-link {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 10px 16px;
+  background: var(--color-charcoal);
+  color: var(--color-cream);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  z-index: 1000;
+  transform: translateY(-200%);
+  transition: transform 200ms var(--ease-smooth);
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline-offset: 1px;
+}
+

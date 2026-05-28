@@ -1,70 +1,33 @@
-'use client'
-
-import { motion, type Variants } from 'framer-motion'
-
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.3,
-    },
-  },
-}
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, ease: 'easeOut' as const },
-  },
-}
-
 export function HeroContent() {
   return (
-    <motion.div
-      className="max-w-2xl pt-24"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
-      <motion.p
-        variants={itemVariants}
-        className="text-xs font-light tracking-[0.3em] uppercase text-gold mb-6"
-      >
-        Animation Artist & Illustrator
-      </motion.p>
+    <div className="max-w-2xl pt-32 sm:pt-36 md:pt-44">
+      <p className="hero-reveal hero-reveal-1 text-[10px] sm:text-xs font-light tracking-[0.3em] uppercase text-gold mb-4 sm:mb-6">
+        2D Animator &amp; AI Animation Artist
+      </p>
 
-      <motion.h1
-        variants={itemVariants}
-        className="font-serif font-light text-charcoal mb-2 leading-none"
-        style={{ fontSize: 'clamp(72px, 8vw, 120px)' }}
+      <h1
+        className="hero-reveal hero-reveal-2 font-serif font-light text-charcoal mb-2 leading-none"
+        style={{ fontSize: 'clamp(56px, 12vw, 120px)' }}
       >
-        Elara<br /><span className="italic text-gold">Voss.</span>
-      </motion.h1>
+        Mayank<br /><span className="italic text-gold">Bisht.</span>
+      </h1>
 
-      <motion.p
-        variants={itemVariants}
-        className="font-serif font-light text-mid mb-10 leading-tight"
-        style={{ fontSize: 'clamp(40px, 4.5vw, 64px)' }}
+      <p
+        className="hero-reveal hero-reveal-3 font-serif font-light text-mid mb-8 sm:mb-10 leading-tight"
+        style={{ fontSize: 'clamp(30px, 6vw, 64px)' }}
       >
-        Bringing worlds<br />to life.
-      </motion.p>
+        Bringing stories<br />to life.
+      </p>
 
-      <motion.p
-        variants={itemVariants}
-        className="text-base font-light text-warm max-w-md mb-12 leading-loose"
-      >
-        Character designer, world-builder, and visual storyteller. Crafting immersive animation from concept to final frame — where imagination meets artistry.
-      </motion.p>
+      <p className="hero-reveal hero-reveal-4 text-sm sm:text-base font-light text-warm max-w-md mb-10 sm:mb-12 leading-loose">
+        2D animator, AI animation artist, and video editor with 4+ years of experience. Creator of DinoSayz — 100+ original animations crafted through visual storytelling, AI-enhanced workflows, and fast-paced editing.
+      </p>
 
-      <motion.div variants={itemVariants} className="flex gap-6 items-center">
+      <div className="hero-reveal hero-reveal-5 flex flex-wrap gap-4 sm:gap-6 items-center">
         <a
           href="#work"
-          className="inline-flex items-center gap-2.5 px-9 py-3.5 bg-charcoal text-cream
-            text-xs font-light tracking-[0.2em] uppercase rounded-sm
+          className="inline-flex items-center gap-2.5 px-7 sm:px-9 py-3 sm:py-3.5 bg-charcoal text-cream
+            text-[10px] sm:text-xs font-light tracking-[0.2em] uppercase rounded-sm
             hover:bg-gold hover:-translate-y-0.5 transition-all duration-base group"
         >
           View Work
@@ -86,7 +49,7 @@ export function HeroContent() {
         </a>
         <a
           href="#contact"
-          className="inline-flex items-center gap-2 text-xs font-light tracking-[0.2em] uppercase
+          className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-light tracking-[0.2em] uppercase
             text-mid hover:text-charcoal transition-colors"
         >
           Get in Touch
@@ -95,7 +58,7 @@ export function HeroContent() {
             <path d="M6 4v4M6 3.5v-.1" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
           </svg>
         </a>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   )
 }

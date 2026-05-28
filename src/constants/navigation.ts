@@ -2,12 +2,10 @@ export const navLinks = [
   { label: 'Home', href: '#hero' },
   { label: 'Work', href: '#work' },
   { label: 'About', href: '#about' },
-  { label: 'Process', href: '#process' },
 ]
 
 export const socialLinks = [
-  { label: 'Instagram', href: 'https://instagram.com' },
-  { label: 'Behance', href: 'https://behance.net' },
-  { label: 'ArtStation', href: 'https://artstation.com' },
+  { label: 'Instagram', href: 'https://www.instagram.com/dino_sayz/' },
+  { label: 'YouTube', href: 'https://www.youtube.com/@dinosayz' },
   { label: 'LinkedIn', href: 'https://linkedin.com' },
 ]
